@@ -1,51 +1,35 @@
 ---
 import '../styles/global.css';
-import Header from '@components/Header.astro';
-import Footer from '@components/Footer.astro';
-import { SITE } from '@config/site';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
   title?: string;
   description?: string;
 }
 
-const currentPathname = Astro.url.pathname;
-
-const { 
-  title = SITE.title, 
-  description = SITE.description 
+const {
+  title = "Michael Zabala | Portafolio",
+  description = "Portafolio de Ingeniería de Sistemas"
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    
-    <!-- Primary Meta Tags -->
-    <title>{title}</title>
-    <meta name="title" content={title} />
     <meta name="description" content={description} />
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
+    <title>{title}</title>
   </head>
-  <body class="flex min-h-screen flex-col bg-white font-sans text-neutral-900 antialiased">
-    <Header currentPathname={currentPathname} />
-    <main class="flex-1">
+
+  <body class="flex min-h-screen flex-col bg-white text-neutral-900">
+    <Header />
+
+    <main class="flex-1 container mx-auto px-4 py-8">
       <slot />
     </main>
+
     <Footer />
   </body>
 </html>
-

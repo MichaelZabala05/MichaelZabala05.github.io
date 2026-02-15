@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout>
+  <section class="min-h-[80vh] flex flex-col justify-center">
+    <h1 class="text-5xl md:text-6xl font-bold leading-tight">
+      Hola, soy <span class="text-blue-600">Michael Zabala</span>
+    </h1>
+
+    <p class="mt-6 text-lg text-gray-600 max-w-2xl">
+      Estudiante de Ingeniería de Sistemas apasionado por el desarrollo,
+      bases de datos y arquitectura de software.
+    </p>
+
+    <div class="mt-8 flex gap-4">
+      <a href="/evidencias"
+         class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+        Ver Evidencias
+      </a>
+
+      <a href="https://github.com/MichaelZabala05"
+         target="_blank"
+         class="border px-6 py-3 rounded-lg hover:bg-gray-100 transition">
+        GitHub
+      </a>
+    </div>
+
+<h2 class="mt-16 text-2xl font-semibold">
+  Video de Presentación
+</h2>
+
+    <div class="mt-16 max-w-3xl rounded-2xl overflow-hidden shadow-xl border">
+      <video 
+        controls 
+        class="w-full h-full"
+        poster="/preview.jpg">
+        <source src="/video-presentacion.mp4" type="video/mp4" />
+        Tu navegador no soporta el video.
+      </video>
+    </div>
+
+  </section>
+</BaseLayout>

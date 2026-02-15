@@ -1,25 +1,48 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const evidencias = [
+  { title: 'Modelado', desc: 'Diagramas entidad-relación y UML.' },
+  { title: 'Normalizacion', desc: 'Procesos de normalización de bases de datos.' },
+  { title: 'SQL', desc: 'Consultas, procedimientos y optimización.' },
+  { title: 'Proyecto', desc: 'Proyecto final aplicado.' },
+];
 ---
 
 <BaseLayout title="Evidencias">
-  <h1 class="text-3xl font-bold mb-6">Evidencias</h1>
 
-  <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-    <a href="/evidencias/modelado" class="p-4 border rounded-lg hover:bg-gray-100">
-      Modelado
-    </a>
+  <section class="py-16">
+    <div class="text-center mb-16">
+      <h1 class="text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
+        Evidencias Académicas
+      </h1>
+      <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
+        Proyectos y trabajos desarrollados durante mi formación en Ingeniería de Sistemas.
+      </p>
+    </div>
 
-    <a href="/evidencias/normalizacion" class="p-4 border rounded-lg hover:bg-gray-100">
-      Normalización
-    </a>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {evidencias.map((item) => (
+        <a
+          href={`/evidencias/${item.title.toLowerCase()}`}
+          class="relative group p-8 rounded-3xl bg-gradient-to-br from-white to-gray-50 border border-gray-200 hover:border-blue-500 hover:-translate-y-2 transition-all duration-300 shadow-md hover:shadow-2xl"
+        >
+          <div class="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-5 rounded-3xl transition"></div>
 
-    <a href="/evidencias/sql" class="p-4 border rounded-lg hover:bg-gray-100">
-      SQL
-    </a>
+          <h2 class="text-2xl font-semibold mb-4 group-hover:text-blue-600 transition">
+            {item.title}
+          </h2>
 
-    <a href="/evidencias/proyecto" class="p-4 border rounded-lg hover:bg-gray-100">
-      Proyecto
-    </a>
-  </div>
+          <p class="text-gray-500 text-sm">
+            {item.desc}
+          </p>
+
+          <div class="mt-6 text-blue-600 font-medium opacity-0 group-hover:opacity-100 transition">
+            Ver más →
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
 </BaseLayout>
