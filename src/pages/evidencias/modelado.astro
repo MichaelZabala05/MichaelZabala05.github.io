@@ -1,0 +1,399 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Modelado E-R – Evidencias">
+
+<section class="py-12">
+  <div class="mb-12">
+    <a href="/evidencias" class="text-blue-600 text-sm hover:underline">← Evidencias</a>
+    <h1 class="text-4xl font-bold mt-4 bg-gradient-to-r from-indigo-600 to-purple-500 bg-clip-text text-transparent">
+      Modelado Entidad-Relación
+    </h1>
+    <p class="mt-3 text-gray-600 max-w-3xl">
+      Diseño conceptual de bases de datos con diagramas E-R, identificación de entidades,
+      atributos, llaves primarias, llaves foráneas y reducción a tablas.
+    </p>
+  </div>
+
+  <!-- EJERCICIO 1 – EMPRESA DE TRANSPORTES -->
+  <article class="mb-20 rounded-3xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+    <div class="bg-gradient-to-r from-indigo-50 to-blue-50 border-b border-gray-200 px-8 py-6">
+      <span class="text-xs font-semibold uppercase tracking-wider text-indigo-600">Ejercicio 1</span>
+      <h2 class="text-2xl font-bold mt-1">Empresa de Transportes – Reparto de Paquetes</h2>
+      <p class="text-gray-500 mt-1 text-sm">
+        Empresa que reparte paquetes por toda Colombia con conductores y camiones.
+      </p>
+    </div>
+    <div class="px-8 py-8 space-y-8">
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Entidades identificadas</h3>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="rounded-xl border border-indigo-200 bg-indigo-50 p-4">
+            <p class="font-bold text-indigo-800 text-sm mb-2">CONDUCTOR</p>
+            <ul class="text-xs text-indigo-700 space-y-1">
+              <li><strong>cedula (PK)</strong></li>
+              <li>nombre</li>
+              <li>telefono</li>
+              <li>direccion</li>
+              <li>salario</li>
+              <li>ciudad</li>
+            </ul>
+          </div>
+          <div class="rounded-xl border border-blue-200 bg-blue-50 p-4">
+            <p class="font-bold text-blue-800 text-sm mb-2">CAMION</p>
+            <ul class="text-xs text-blue-700 space-y-1">
+              <li><strong>matricula (PK)</strong></li>
+              <li>modelo</li>
+              <li>tipo</li>
+              <li>potencia</li>
+            </ul>
+          </div>
+          <div class="rounded-xl border border-violet-200 bg-violet-50 p-4">
+            <p class="font-bold text-violet-800 text-sm mb-2">PAQUETE</p>
+            <ul class="text-xs text-violet-700 space-y-1">
+              <li><strong>cod_paquete (PK)</strong></li>
+              <li>descripcion</li>
+              <li>destinatario</li>
+              <li>dir_destinatario</li>
+              <li>cedula_conductor (FK)</li>
+              <li>cod_ciudad (FK)</li>
+            </ul>
+          </div>
+          <div class="rounded-xl border border-sky-200 bg-sky-50 p-4">
+            <p class="font-bold text-sky-800 text-sm mb-2">CIUDAD</p>
+            <ul class="text-xs text-sky-700 space-y-1">
+              <li><strong>cod_ciudad (PK)</strong></li>
+              <li>nombre</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Restricciones de correspondencia</h3>
+        <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside">
+          <li>Un CONDUCTOR distribuye muchos PAQUETES; un PAQUETE es distribuido por un solo CONDUCTOR (1:N).</li>
+          <li>Un PAQUETE llega a una sola CIUDAD; una CIUDAD puede recibir muchos PAQUETES (N:1).</li>
+          <li>Un CONDUCTOR puede conducir diferentes CAMIONES en fechas distintas y un CAMION puede ser conducido por varios CONDUCTORES (N:M → tabla ASIGNACION).</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Reducción a tablas</h3>
+        <div class="bg-gray-50 rounded-xl p-5 font-mono text-xs space-y-2 border border-gray-200">
+          <p><span class="font-bold">CONDUCTOR</span>(cedula, nombre, telefono, direccion, salario, ciudad)</p>
+          <p><span class="font-bold">CAMION</span>(matricula, modelo, tipo, potencia)</p>
+          <p><span class="font-bold">CIUDAD</span>(cod_ciudad, nombre)</p>
+          <p><span class="font-bold">PAQUETE</span>(cod_paquete, descripcion, destinatario, dir_destinatario, <u>cedula_conductor</u>, <u>cod_ciudad</u>)</p>
+          <p><span class="font-bold">ASIGNACION</span>(<u>cedula_conductor</u>, <u>matricula_camion</u>, fecha)</p>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Diagrama E-R – Transportes</h3>
+        <div id="er1"></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EJERCICIO 2 – EMPRESA DE BIENES RAÍCES -->
+  <article class="mb-20 rounded-3xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+    <div class="bg-gradient-to-r from-emerald-50 to-teal-50 border-b border-gray-200 px-8 py-6">
+      <span class="text-xs font-semibold uppercase tracking-wider text-emerald-600">Ejercicio 2</span>
+      <h2 class="text-2xl font-bold mt-1">Empresa de Bienes Raíces</h2>
+      <p class="text-gray-500 mt-1 text-sm">
+        Sistema de seguimiento de casas en venta, agentes y clientes compradores.
+      </p>
+    </div>
+    <div class="px-8 py-8 space-y-8">
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Entidades identificadas</h3>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+            <p class="font-bold text-emerald-800 text-sm mb-2">AGENTE</p>
+            <ul class="text-xs text-emerald-700 space-y-1">
+              <li><strong>cod_agente (PK)</strong></li>
+              <li>primer_nombre</li>
+              <li>segundo_nombre</li>
+              <li>primer_apellido</li>
+              <li>segundo_apellido</li>
+              <li>cedula</li>
+              <li>genero</li>
+              <li>fecha_nacimiento</li>
+              <li>edad (derivado)</li>
+              <li>ventas_ultimo_mes</li>
+            </ul>
+          </div>
+          <div class="rounded-xl border border-teal-200 bg-teal-50 p-4">
+            <p class="font-bold text-teal-800 text-sm mb-2">CASA</p>
+            <ul class="text-xs text-teal-700 space-y-1">
+              <li><strong>cod_casa (PK)</strong></li>
+              <li>precio</li>
+              <li>direccion</li>
+              <li>propietario</li>
+              <li>cod_agente (FK)</li>
+            </ul>
+          </div>
+          <div class="rounded-xl border border-cyan-200 bg-cyan-50 p-4">
+            <p class="font-bold text-cyan-800 text-sm mb-2">CARACTERISTICA</p>
+            <ul class="text-xs text-cyan-700 space-y-1">
+              <li><strong>cod_caracteristica (PK)</strong></li>
+              <li>nombre</li>
+              <li>descripcion</li>
+            </ul>
+          </div>
+          <div class="rounded-xl border border-green-200 bg-green-50 p-4">
+            <p class="font-bold text-green-800 text-sm mb-2">CLIENTE</p>
+            <ul class="text-xs text-green-700 space-y-1">
+              <li><strong>cod_cliente (PK)</strong></li>
+              <li>nombre</li>
+              <li>precio_min</li>
+              <li>precio_max</li>
+            </ul>
+          </div>
+          <div class="rounded-xl border border-lime-200 bg-lime-50 p-4">
+            <p class="font-bold text-lime-800 text-sm mb-2">CASA_CARACTERISTICA</p>
+            <ul class="text-xs text-lime-700 space-y-1">
+              <li><strong>cod_casa (FK)</strong></li>
+              <li><strong>cod_caracteristica (FK)</strong></li>
+              <li>valor</li>
+            </ul>
+          </div>
+          <div class="rounded-xl border border-sky-200 bg-sky-50 p-4">
+            <p class="font-bold text-sky-800 text-sm mb-2">PREFERENCIA</p>
+            <ul class="text-xs text-sky-700 space-y-1">
+              <li><strong>cod_cliente (FK)</strong></li>
+              <li><strong>cod_caracteristica (FK)</strong></li>
+              <li>valor_deseado</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Restricciones de correspondencia</h3>
+        <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside">
+          <li>Un AGENTE puede listar muchas CASAS; una CASA es listada por un AGENTE (1:N).</li>
+          <li>Una CASA tiene muchas CARACTERISTICAS y una CARACTERISTICA puede estar en muchas CASAS (N:M → CASA_CARACTERISTICA).</li>
+          <li>Un CLIENTE tiene muchas PREFERENCIAS sobre CARACTERISTICAS (N:M → PREFERENCIA).</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Diagrama E-R – Bienes Raíces</h3>
+        <div id="er2"></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EJERCICIO 3 – BIBLIOTECA COMUNITARIA -->
+  <article class="mb-20 rounded-3xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+    <div class="bg-gradient-to-r from-amber-50 to-orange-50 border-b border-gray-200 px-8 py-6">
+      <span class="text-xs font-semibold uppercase tracking-wider text-amber-600">Ejercicio 3</span>
+      <h2 class="text-2xl font-bold mt-1">Biblioteca Comunitaria Local</h2>
+      <p class="text-gray-500 mt-1 text-sm">
+        Sistema de préstamos con usuarios, patrocinadores y multas para menores de edad.
+      </p>
+    </div>
+    <div class="px-8 py-8 space-y-8">
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Entidades identificadas</h3>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="rounded-xl border border-amber-200 bg-amber-50 p-4">
+            <p class="font-bold text-amber-800 text-sm mb-2">USUARIO</p>
+            <ul class="text-xs text-amber-700 space-y-1">
+              <li><strong>num_cuenta (PK)</strong></li>
+              <li>nombre</li>
+              <li>direccion</li>
+              <li>telefono</li>
+              <li>fecha_nacimiento</li>
+              <li>es_menor (derivado)</li>
+              <li>num_patrocinador (FK, nullable)</li>
+            </ul>
+          </div>
+          <div class="rounded-xl border border-orange-200 bg-orange-50 p-4">
+            <p class="font-bold text-orange-800 text-sm mb-2">ARTICULO</p>
+            <ul class="text-xs text-orange-700 space-y-1">
+              <li><strong>cod_articulo (PK)</strong></li>
+              <li>titulo</li>
+              <li>tipo (libro/CD/cinta)</li>
+              <li>autor</li>
+            </ul>
+          </div>
+          <div class="rounded-xl border border-yellow-200 bg-yellow-50 p-4">
+            <p class="font-bold text-yellow-800 text-sm mb-2">PRESTAMO</p>
+            <ul class="text-xs text-yellow-700 space-y-1">
+              <li><strong>cod_prestamo (PK)</strong></li>
+              <li>num_cuenta (FK)</li>
+              <li>cod_articulo (FK)</li>
+              <li>fecha_prestamo</li>
+              <li>fecha_limite</li>
+              <li>fecha_devolucion</li>
+              <li>penalizacion</li>
+            </ul>
+          </div>
+        </div>
+        <p class="mt-4 text-sm text-gray-600">
+          Un USUARIO menor de edad (menor a 18 años) debe tener un patrocinador adulto que sea responsable
+          de pagar multas. El patrocinador es también un USUARIO con num_cuenta, modelado como una
+          autorrelación (USUARIO patrocina a USUARIO).
+        </p>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Restricciones de correspondencia</h3>
+        <ul class="text-sm text-gray-600 space-y-2 list-disc list-inside">
+          <li>Un USUARIO puede tener muchos PRESTAMOS; un PRESTAMO pertenece a un único USUARIO (1:N).</li>
+          <li>Un ARTICULO puede estar en muchos PRESTAMOS a lo largo del tiempo (1:N).</li>
+          <li>Un USUARIO menor tiene exactamente un patrocinador; un patrocinador puede avalar a varios menores (1:N autorrelación).</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Reducción a tablas</h3>
+        <div class="bg-gray-50 rounded-xl p-5 font-mono text-xs space-y-2 border border-gray-200">
+          <p><span class="font-bold">USUARIO</span>(num_cuenta, nombre, direccion, telefono, fecha_nacimiento, <u>num_patrocinador</u>)</p>
+          <p><span class="font-bold">ARTICULO</span>(cod_articulo, titulo, tipo, autor)</p>
+          <p><span class="font-bold">PRESTAMO</span>(cod_prestamo, <u>num_cuenta</u>, <u>cod_articulo</u>, fecha_prestamo, fecha_limite, fecha_devolucion, penalizacion)</p>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Diagrama E-R – Biblioteca</h3>
+        <div id="er3"></div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<script type="module">
+import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';
+const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+await document.fonts.ready;
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  fontFamily: 'ui-sans-serif, system-ui, sans-serif',
+  themeVariables: {
+    darkMode: dark,
+    fontSize: '13px',
+    lineColor: dark ? '#9c9a92' : '#73726c',
+    textColor: dark ? '#c2c0b6' : '#3d3d3a',
+    primaryColor: dark ? '#1e3a5f' : '#dbeafe',
+    primaryTextColor: dark ? '#93c5fd' : '#1e40af',
+    primaryBorderColor: dark ? '#3b82f6' : '#93c5fd',
+  },
+});
+
+async function renderDiagram(id, src) {
+  const { svg } = await mermaid.render(id + '-svg', src);
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = svg;
+}
+
+await renderDiagram('er1', `erDiagram
+  CONDUCTOR {
+    string cedula PK
+    string nombre
+    string telefono
+    string direccion
+    float salario
+    string ciudad
+  }
+  CAMION {
+    string matricula PK
+    string modelo
+    string tipo
+    float potencia
+  }
+  CIUDAD {
+    string cod_ciudad PK
+    string nombre
+  }
+  PAQUETE {
+    int cod_paquete PK
+    string descripcion
+    string destinatario
+    string dir_destinatario
+    string cedula_conductor FK
+    string cod_ciudad FK
+  }
+  ASIGNACION {
+    string cedula_conductor FK
+    string matricula_camion FK
+    date fecha
+  }
+  CONDUCTOR ||--o{ PAQUETE : "distribuir"
+  CIUDAD ||--o{ PAQUETE : "recibir"
+  CONDUCTOR ||--|{ ASIGNACION : "conducir"
+  CAMION ||--|{ ASIGNACION : "asignar"
+`);
+
+await renderDiagram('er2', `erDiagram
+  AGENTE {
+    int cod_agente PK
+    string primer_nombre
+    string primer_apellido
+    string cedula
+    string genero
+    date fecha_nacimiento
+    int ventas_ultimo_mes
+  }
+  CASA {
+    int cod_casa PK
+    float precio
+    string direccion
+    string propietario
+    int cod_agente FK
+  }
+  CARACTERISTICA {
+    int cod_caracteristica PK
+    string nombre
+    string descripcion
+  }
+  CLIENTE {
+    int cod_cliente PK
+    string nombre
+    float precio_min
+    float precio_max
+  }
+  CASA_CARACTERISTICA {
+    int cod_casa FK
+    int cod_caracteristica FK
+    string valor
+  }
+  PREFERENCIA {
+    int cod_cliente FK
+    int cod_caracteristica FK
+    string valor_deseado
+  }
+  AGENTE ||--o{ CASA : "listar"
+  CASA ||--|{ CASA_CARACTERISTICA : "tener"
+  CARACTERISTICA ||--|{ CASA_CARACTERISTICA : "describir"
+  CLIENTE ||--|{ PREFERENCIA : "preferir"
+  CARACTERISTICA ||--|{ PREFERENCIA : "aplicar"
+`);
+
+await renderDiagram('er3', `erDiagram
+  USUARIO {
+    int num_cuenta PK
+    string nombre
+    string direccion
+    string telefono
+    date fecha_nacimiento
+    int num_patrocinador FK
+  }
+  ARTICULO {
+    int cod_articulo PK
+    string titulo
+    string tipo
+    string autor
+  }
+  PRESTAMO {
+    int cod_prestamo PK
+    int num_cuenta FK
+    int cod_articulo FK
+    date fecha_prestamo
+    date fecha_limite
+    date fecha_devolucion
+    float penalizacion
+  }
+  USUARIO ||--o{ PRESTAMO : "realizar"
+  ARTICULO ||--o{ PRESTAMO : "pertenecer"
+  USUARIO ||--o{ USUARIO : "patrocinar"
+`);
+</script>
+</BaseLayout>

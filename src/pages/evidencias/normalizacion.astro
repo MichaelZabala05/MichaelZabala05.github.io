@@ -1,0 +1,474 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Normalización – Evidencias">
+
+<section class="py-12">
+  <div class="mb-12">
+    <a href="/evidencias" class="text-blue-600 text-sm hover:underline">← Evidencias</a>
+    <h1 class="text-4xl font-bold mt-4 bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
+      Normalización de Bases de Datos
+    </h1>
+    <p class="mt-3 text-gray-600 max-w-3xl">
+      Aplicación del proceso de normalización (1FN → 2FN → 3FN) con diagramas MER
+      y justificación paso a paso para tres escenarios del mundo real.
+    </p>
+  </div>
+
+  <!-- EJERCICIO 1 – FACTURA DE COMPRA-VENTA -->
+  <article class="mb-20 rounded-3xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200 px-8 py-6">
+      <span class="text-xs font-semibold uppercase tracking-wider text-blue-600">Ejercicio 1</span>
+      <h2 class="text-2xl font-bold mt-1">Factura de Compra-Venta – Colombian Systems</h2>
+      <p class="text-gray-500 mt-1 text-sm">Sistematización del proceso de facturación de una empresa.</p>
+    </div>
+    <div class="px-8 py-8 space-y-8">
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Relación inicial (sin normalizar)</h3>
+        <div class="bg-gray-50 rounded-xl p-4 font-mono text-sm text-gray-700 border border-gray-200">
+          FACTURA(<u>NUM_FAC</u>, FECHA_FAC, RIF_CLIENTE, NOM_CLIENTE, DIR_CLIENTE,
+          CIUDAD_CLIENTE, TELEF_CLIENTE, CATEGORIA, COD_PROD, DESP_PROD,
+          VAL_UNIT, CANT_PROD)
+        </div>
+        <p class="mt-3 text-gray-600 text-sm">
+          La relación almacena todo en una sola tabla. La llave primaria es <strong>NUM_FAC</strong>.
+          Existe un grupo repetido de producto (COD_PROD, DESP_PROD, VAL_UNIT, CANT_PROD)
+          ya que una factura puede incluir varios productos.
+        </p>
+      </div>
+      <div class="border-l-4 border-blue-400 pl-5">
+        <h3 class="text-lg font-semibold text-blue-700 mb-2">Primera Forma Normal (1FN)</h3>
+        <p class="text-gray-600 text-sm mb-3">
+          Se eliminan los grupos repetidos extrayendo los atributos del producto a una nueva
+          tabla. La llave primaria de DETALLE_FACTURA es compuesta: (NUM_FAC, COD_PROD).
+        </p>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-blue-50 rounded-lg p-4 font-mono text-xs border border-blue-200">
+            <p class="font-bold text-blue-800 mb-1">FACTURA</p>
+            <p>NUM_FAC (PK), FECHA_FAC, RIF_CLIENTE,</p>
+            <p>NOM_CLIENTE, DIR_CLIENTE,</p>
+            <p>CIUDAD_CLIENTE, TELEF_CLIENTE, CATEGORIA</p>
+          </div>
+          <div class="bg-blue-50 rounded-lg p-4 font-mono text-xs border border-blue-200">
+            <p class="font-bold text-blue-800 mb-1">DETALLE_FACTURA</p>
+            <p>NUM_FAC (PK,FK), COD_PROD (PK),</p>
+            <p>DESP_PROD, VAL_UNIT, CANT_PROD</p>
+          </div>
+        </div>
+      </div>
+      <div class="border-l-4 border-indigo-400 pl-5">
+        <h3 class="text-lg font-semibold text-indigo-700 mb-2">Segunda Forma Normal (2FN)</h3>
+        <p class="text-gray-600 text-sm mb-3">
+          En DETALLE_FACTURA, DESP_PROD y VAL_UNIT dependen únicamente de COD_PROD
+          (dependencia parcial). Se extrae la tabla PRODUCTO.
+        </p>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="bg-indigo-50 rounded-lg p-4 font-mono text-xs border border-indigo-200">
+            <p class="font-bold text-indigo-800 mb-1">FACTURA</p>
+            <p>NUM_FAC (PK), FECHA_FAC,</p>
+            <p>RIF_CLIENTE, NOM_CLIENTE,</p>
+            <p>DIR_CLIENTE, CIUDAD_CLIENTE,</p>
+            <p>TELEF_CLIENTE, CATEGORIA</p>
+          </div>
+          <div class="bg-indigo-50 rounded-lg p-4 font-mono text-xs border border-indigo-200">
+            <p class="font-bold text-indigo-800 mb-1">DETALLE_FACTURA</p>
+            <p>NUM_FAC (PK,FK),</p>
+            <p>COD_PROD (PK,FK), CANT_PROD</p>
+          </div>
+          <div class="bg-indigo-50 rounded-lg p-4 font-mono text-xs border border-indigo-200">
+            <p class="font-bold text-indigo-800 mb-1">PRODUCTO</p>
+            <p>COD_PROD (PK),</p>
+            <p>DESP_PROD, VAL_UNIT, CATEGORIA</p>
+          </div>
+        </div>
+      </div>
+      <div class="border-l-4 border-green-400 pl-5">
+        <h3 class="text-lg font-semibold text-green-700 mb-2">Tercera Forma Normal (3FN)</h3>
+        <p class="text-gray-600 text-sm mb-3">
+          En FACTURA, los atributos NOM_CLIENTE, DIR_CLIENTE, CIUDAD_CLIENTE y TELEF_CLIENTE
+          dependen transitivamente de RIF_CLIENTE (no de NUM_FAC). Se extrae la tabla CLIENTE.
+        </p>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-green-50 rounded-lg p-4 font-mono text-xs border border-green-200">
+            <p class="font-bold text-green-800 mb-1">FACTURA</p>
+            <p>NUM_FAC (PK), FECHA_FAC,</p>
+            <p>RIF_CLIENTE (FK)</p>
+          </div>
+          <div class="bg-green-50 rounded-lg p-4 font-mono text-xs border border-green-200">
+            <p class="font-bold text-green-800 mb-1">CLIENTE</p>
+            <p>RIF_CLIENTE (PK),</p>
+            <p>NOM_CLIENTE, DIR_CLIENTE,</p>
+            <p>CIUDAD_CLIENTE, TELEF_CLIENTE</p>
+          </div>
+          <div class="bg-green-50 rounded-lg p-4 font-mono text-xs border border-green-200">
+            <p class="font-bold text-green-800 mb-1">DETALLE_FACTURA</p>
+            <p>NUM_FAC (PK,FK),</p>
+            <p>COD_PROD (PK,FK), CANT_PROD</p>
+          </div>
+          <div class="bg-green-50 rounded-lg p-4 font-mono text-xs border border-green-200">
+            <p class="font-bold text-green-800 mb-1">PRODUCTO</p>
+            <p>COD_PROD (PK),</p>
+            <p>DESP_PROD, VAL_UNIT,</p>
+            <p>CATEGORIA</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Diagrama MER – Facturación</h3>
+        <div id="mer1"></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EJERCICIO 2 – VIDEO CLUB -->
+  <article class="mb-20 rounded-3xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+    <div class="bg-gradient-to-r from-purple-50 to-pink-50 border-b border-gray-200 px-8 py-6">
+      <span class="text-xs font-semibold uppercase tracking-wider text-purple-600">Ejercicio 2</span>
+      <h2 class="text-2xl font-bold mt-1">Video Club</h2>
+      <p class="text-gray-500 mt-1 text-sm">Sistema de alquiler de casetes con membresías y actores.</p>
+    </div>
+    <div class="px-8 py-8 space-y-8">
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Relaciones iniciales (sin normalizar)</h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-gray-50 rounded-xl p-4 font-mono text-xs text-gray-700 border border-gray-200">
+            <p class="font-bold mb-1">ALQUILER</p>
+            <p>cod_alquiler (PK), num_membresia,</p>
+            <p>cod_cliente, nom_cliente, dir_cliente,</p>
+            <p>telef_cliente, cod_cassette,</p>
+            <p>fecha_alquiler, fecha_dev,</p>
+            <p>valor_alquiler, cantidad</p>
+          </div>
+          <div class="bg-gray-50 rounded-xl p-4 font-mono text-xs text-gray-700 border border-gray-200">
+            <p class="font-bold mb-1">CASSETTE</p>
+            <p>cod_cassette (PK), num_copias,</p>
+            <p>formato, cod_pelicula, titulo,</p>
+            <p>categoria, cod_actor, nom_actor,</p>
+            <p>fechanac_actor, cod_tipo</p>
+          </div>
+        </div>
+      </div>
+      <div class="border-l-4 border-purple-400 pl-5">
+        <h3 class="text-lg font-semibold text-purple-700 mb-2">1FN – Eliminar grupos repetidos</h3>
+        <p class="text-gray-600 text-sm">
+          En CASSETTE existe un grupo repetido de actor (cod_actor, nom_actor, fechanac_actor):
+          un cassette puede tener múltiples actores. Se crea la tabla CASSETTE_ACTOR
+          con llave compuesta (cod_cassette, cod_actor).
+        </p>
+      </div>
+      <div class="border-l-4 border-pink-400 pl-5">
+        <h3 class="text-lg font-semibold text-pink-700 mb-2">2FN – Eliminar dependencias parciales</h3>
+        <p class="text-gray-600 text-sm">
+          En CASSETTE_ACTOR, nom_actor y fechanac_actor dependen solo de cod_actor.
+          En ALQUILER, datos del cliente dependen de cod_cliente; los datos del cassette
+          de cod_cassette. Se extraen CLIENTE y se separan los atributos.
+        </p>
+      </div>
+      <div class="border-l-4 border-green-400 pl-5">
+        <h3 class="text-lg font-semibold text-green-700 mb-2">3FN – Eliminar dependencias transitivas</h3>
+        <p class="text-gray-600 text-sm mb-3">
+          En ALQUILER: num_membresia → cod_cliente es una dependencia transitiva.
+          En CASSETTE: titulo y categoria dependen de cod_pelicula. Se separan
+          MEMBRESIA, PELICULA y ACTOR en sus propias tablas.
+        </p>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs font-mono">
+          <div class="bg-purple-50 rounded-lg p-3 border border-purple-200">
+            <p class="font-bold text-purple-800 mb-1">CLIENTE</p>
+            <p>cod_cliente (PK), nom_cliente,</p>
+            <p>dir_cliente, telef_cliente</p>
+          </div>
+          <div class="bg-purple-50 rounded-lg p-3 border border-purple-200">
+            <p class="font-bold text-purple-800 mb-1">MEMBRESIA</p>
+            <p>num_membresia (PK),</p>
+            <p>cod_cliente (FK)</p>
+          </div>
+          <div class="bg-purple-50 rounded-lg p-3 border border-purple-200">
+            <p class="font-bold text-purple-800 mb-1">ALQUILER</p>
+            <p>cod_alquiler (PK),</p>
+            <p>num_membresia (FK),</p>
+            <p>cod_cassette (FK),</p>
+            <p>fecha_alquiler, fecha_dev,</p>
+            <p>valor_alquiler, cantidad</p>
+          </div>
+          <div class="bg-purple-50 rounded-lg p-3 border border-purple-200">
+            <p class="font-bold text-purple-800 mb-1">CASSETTE</p>
+            <p>cod_cassette (PK), num_copias,</p>
+            <p>formato, cod_pelicula (FK)</p>
+          </div>
+          <div class="bg-purple-50 rounded-lg p-3 border border-purple-200">
+            <p class="font-bold text-purple-800 mb-1">PELICULA</p>
+            <p>cod_pelicula (PK),</p>
+            <p>titulo, categoria</p>
+          </div>
+          <div class="bg-purple-50 rounded-lg p-3 border border-purple-200">
+            <p class="font-bold text-purple-800 mb-1">ACTOR</p>
+            <p>cod_actor (PK),</p>
+            <p>nom_actor, fechanac_actor</p>
+          </div>
+          <div class="bg-purple-50 rounded-lg p-3 border border-purple-200">
+            <p class="font-bold text-purple-800 mb-1">PELICULA_ACTOR</p>
+            <p>cod_pelicula (FK),</p>
+            <p>cod_actor (FK)</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Diagrama MER – Video Club</h3>
+        <div id="mer2"></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- EJERCICIO 3 – EMPRESA DE ENVÍO -->
+  <article class="mb-20 rounded-3xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+    <div class="bg-gradient-to-r from-teal-50 to-cyan-50 border-b border-gray-200 px-8 py-6">
+      <span class="text-xs font-semibold uppercase tracking-wider text-teal-600">Ejercicio 3</span>
+      <h2 class="text-2xl font-bold mt-1">Empresa de Envío de Mercancía</h2>
+      <p class="text-gray-500 mt-1 text-sm">Normalización del sistema de guías de envío con paquetes y ciudades.</p>
+    </div>
+    <div class="px-8 py-8 space-y-8">
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Relación inicial (sin normalizar)</h3>
+        <div class="bg-gray-50 rounded-xl p-4 font-mono text-xs text-gray-700 border border-gray-200">
+          GUIA(GUIA_NO (PK), GUIA_FECHA, GUIA_HORA,
+          ORGN_RIF, ORGN_NOM, ORGN_ACT, ORGN_CIUDAD, ORGN_DIR, ORGN_TEL, ORGN_CEL,
+          DEST_ID, DEST_NOM, DEST_COD_CIUDAD, DEST_CIUDAD, DEST_DIR, DEST_TEL, DEST_KM,
+          CODIGO, TIPO, NOMBRE, DESCRIPCION, VALR_FLETE)
+        </div>
+      </div>
+      <div class="border-l-4 border-teal-400 pl-5">
+        <h3 class="text-lg font-semibold text-teal-700 mb-2">1FN – Separar paquetes</h3>
+        <p class="text-gray-600 text-sm">
+          Los atributos de paquete (CODIGO, TIPO, NOMBRE, DESCRIPCION, VALR_FLETE)
+          forman un grupo repetido. Se crea GUIA_PAQUETE con llave compuesta (GUIA_NO, CODIGO).
+        </p>
+      </div>
+      <div class="border-l-4 border-cyan-400 pl-5">
+        <h3 class="text-lg font-semibold text-cyan-700 mb-2">2FN – Dependencias parciales</h3>
+        <p class="text-gray-600 text-sm">
+          TIPO, NOMBRE y DESCRIPCION dependen solo de CODIGO (no de GUIA_NO).
+          Se extrae PAQUETE. Los atributos ORGN_* dependen de ORGN_RIF;
+          los DEST_* dependen de DEST_ID. Se crean EMPRESA_ORIGEN y DESTINATARIO.
+        </p>
+      </div>
+      <div class="border-l-4 border-green-400 pl-5">
+        <h3 class="text-lg font-semibold text-green-700 mb-2">3FN – Dependencias transitivas</h3>
+        <p class="text-gray-600 text-sm mb-3">
+          DEST_CIUDAD depende de DEST_COD_CIUDAD (no de DEST_ID).
+          DEST_KM depende del par de ciudades, no del destinatario.
+          Se extraen las tablas CIUDAD y DISTANCIA.
+        </p>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-mono">
+          <div class="bg-teal-50 rounded-lg p-3 border border-teal-200">
+            <p class="font-bold text-teal-800 mb-1">GUIA</p>
+            <p>GUIA_NO (PK), GUIA_FECHA,</p>
+            <p>GUIA_HORA,</p>
+            <p>ORGN_RIF (FK), DEST_ID (FK)</p>
+          </div>
+          <div class="bg-teal-50 rounded-lg p-3 border border-teal-200">
+            <p class="font-bold text-teal-800 mb-1">EMPRESA_ORIGEN</p>
+            <p>ORGN_RIF (PK), ORGN_NOM,</p>
+            <p>ORGN_ACT, COD_CIUDAD (FK),</p>
+            <p>ORGN_DIR, ORGN_TEL, ORGN_CEL</p>
+          </div>
+          <div class="bg-teal-50 rounded-lg p-3 border border-teal-200">
+            <p class="font-bold text-teal-800 mb-1">DESTINATARIO</p>
+            <p>DEST_ID (PK), DEST_NOM,</p>
+            <p>COD_CIUDAD (FK),</p>
+            <p>DEST_DIR, DEST_TEL</p>
+          </div>
+          <div class="bg-teal-50 rounded-lg p-3 border border-teal-200">
+            <p class="font-bold text-teal-800 mb-1">CIUDAD</p>
+            <p>COD_CIUDAD (PK),</p>
+            <p>NOM_CIUDAD</p>
+          </div>
+          <div class="bg-teal-50 rounded-lg p-3 border border-teal-200">
+            <p class="font-bold text-teal-800 mb-1">DISTANCIA</p>
+            <p>COD_CIUDAD_ORIG (FK),</p>
+            <p>COD_CIUDAD_DEST (FK), KM</p>
+          </div>
+          <div class="bg-teal-50 rounded-lg p-3 border border-teal-200">
+            <p class="font-bold text-teal-800 mb-1">GUIA_PAQUETE</p>
+            <p>GUIA_NO (FK), CODIGO (FK),</p>
+            <p>VALR_FLETE</p>
+          </div>
+          <div class="bg-teal-50 rounded-lg p-3 border border-teal-200">
+            <p class="font-bold text-teal-800 mb-1">PAQUETE</p>
+            <p>CODIGO (PK), COD_TIPO (FK),</p>
+            <p>NOMBRE, DESCRIPCION</p>
+          </div>
+          <div class="bg-teal-50 rounded-lg p-3 border border-teal-200">
+            <p class="font-bold text-teal-800 mb-1">TIPO_PAQUETE</p>
+            <p>COD_TIPO (PK), TIPO</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Diagrama MER – Envío de Mercancía</h3>
+        <div id="mer3"></div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<script type="module">
+import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';
+const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+await document.fonts.ready;
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  fontFamily: 'ui-sans-serif, system-ui, sans-serif',
+  themeVariables: {
+    darkMode: dark,
+    fontSize: '13px',
+    lineColor: dark ? '#9c9a92' : '#73726c',
+    textColor: dark ? '#c2c0b6' : '#3d3d3a',
+    primaryColor: dark ? '#1e3a5f' : '#dbeafe',
+    primaryTextColor: dark ? '#93c5fd' : '#1e40af',
+    primaryBorderColor: dark ? '#3b82f6' : '#93c5fd',
+  },
+});
+
+async function renderDiagram(id, src) {
+  const { svg } = await mermaid.render(id + '-svg', src);
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = svg;
+}
+
+await renderDiagram('mer1', `erDiagram
+  CLIENTE {
+    string RIF_CLIENTE PK
+    string NOM_CLIENTE
+    string DIR_CLIENTE
+    string CIUDAD_CLIENTE
+    string TELEF_CLIENTE
+  }
+  FACTURA {
+    int NUM_FAC PK
+    date FECHA_FAC
+    string RIF_CLIENTE FK
+  }
+  DETALLE_FACTURA {
+    int NUM_FAC FK
+    int COD_PROD FK
+    int CANT_PROD
+  }
+  PRODUCTO {
+    int COD_PROD PK
+    string DESP_PROD
+    float VAL_UNIT
+    string CATEGORIA
+  }
+  CLIENTE ||--o{ FACTURA : "emitir"
+  FACTURA ||--|{ DETALLE_FACTURA : "contener"
+  PRODUCTO ||--o{ DETALLE_FACTURA : "incluir"
+`);
+
+await renderDiagram('mer2', `erDiagram
+  CLIENTE {
+    int cod_cliente PK
+    string nom_cliente
+    string dir_cliente
+    string telef_cliente
+  }
+  MEMBRESIA {
+    int num_membresia PK
+    int cod_cliente FK
+  }
+  ALQUILER {
+    int cod_alquiler PK
+    int num_membresia FK
+    int cod_cassette FK
+    date fecha_alquiler
+    date fecha_dev
+    float valor_alquiler
+  }
+  CASSETTE {
+    int cod_cassette PK
+    int num_copias
+    string formato
+    int cod_pelicula FK
+  }
+  PELICULA {
+    int cod_pelicula PK
+    string titulo
+    string categoria
+  }
+  ACTOR {
+    int cod_actor PK
+    string nom_actor
+    date fechanac_actor
+  }
+  PELICULA_ACTOR {
+    int cod_pelicula FK
+    int cod_actor FK
+  }
+  CLIENTE ||--|| MEMBRESIA : "poseer"
+  MEMBRESIA ||--o{ ALQUILER : "registrar"
+  CASSETTE ||--o{ ALQUILER : "pertenecer"
+  PELICULA ||--|{ CASSETTE : "grabar"
+  PELICULA ||--|{ PELICULA_ACTOR : "protagonizar"
+  ACTOR ||--|{ PELICULA_ACTOR : "actuar"
+`);
+
+await renderDiagram('mer3', `erDiagram
+  EMPRESA_ORIGEN {
+    string ORGN_RIF PK
+    string ORGN_NOM
+    string ORGN_ACT
+    string COD_CIUDAD FK
+    string ORGN_DIR
+    string ORGN_TEL
+  }
+  DESTINATARIO {
+    string DEST_ID PK
+    string DEST_NOM
+    string COD_CIUDAD FK
+    string DEST_DIR
+    string DEST_TEL
+  }
+  CIUDAD {
+    string COD_CIUDAD PK
+    string NOM_CIUDAD
+  }
+  DISTANCIA {
+    string COD_CIUDAD_ORIG FK
+    string COD_CIUDAD_DEST FK
+    float KM
+  }
+  GUIA {
+    int GUIA_NO PK
+    date GUIA_FECHA
+    time GUIA_HORA
+    string ORGN_RIF FK
+    string DEST_ID FK
+  }
+  GUIA_PAQUETE {
+    int GUIA_NO FK
+    int CODIGO FK
+    float VALR_FLETE
+  }
+  PAQUETE {
+    int CODIGO PK
+    int COD_TIPO FK
+    string NOMBRE
+    string DESCRIPCION
+  }
+  TIPO_PAQUETE {
+    int COD_TIPO PK
+    string TIPO
+  }
+  CIUDAD ||--o{ EMPRESA_ORIGEN : "ubicar"
+  CIUDAD ||--o{ DESTINATARIO : "ubicar"
+  CIUDAD ||--|{ DISTANCIA : "originar"
+  CIUDAD ||--|{ DISTANCIA : "destinar"
+  EMPRESA_ORIGEN ||--o{ GUIA : "generar"
+  DESTINATARIO ||--o{ GUIA : "recibir"
+  GUIA ||--|{ GUIA_PAQUETE : "contener"
+  PAQUETE ||--|{ GUIA_PAQUETE : "pertenecer"
+  TIPO_PAQUETE ||--o{ PAQUETE : "clasificar"
+`);
+</script>
+</BaseLayout>

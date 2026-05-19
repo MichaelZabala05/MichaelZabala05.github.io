@@ -2,47 +2,75 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const evidencias = [
-  { title: 'Modelado', desc: 'Diagramas entidad-relación y UML.' },
-  { title: 'Normalizacion', desc: 'Procesos de normalización de bases de datos.' },
-  { title: 'SQL', desc: 'Consultas, procedimientos y optimización.' },
-  { title: 'Proyecto', desc: 'Proyecto final aplicado.' },
+  {
+    title: 'Modelado',
+    slug: 'modelado',
+    desc: 'Diagramas E-R: transportes, bienes raíces y biblioteca comunitaria.',
+    color: 'from-indigo-500 to-purple-500',
+    border: 'hover:border-indigo-500',
+    icon: '🗂️'
+  },
+  {
+    title: 'Normalización',
+    slug: 'normalizacion',
+    desc: 'Proceso 1FN→2FN→3FN: facturación, video club y empresa de envíos.',
+    color: 'from-blue-500 to-cyan-500',
+    border: 'hover:border-blue-500',
+    icon: '📐'
+  },
+  {
+    title: 'SQL',
+    slug: 'sql',
+    desc: 'Consultas en álgebra relacional y SQL con 10 ejercicios del Taller Corte 2.',
+    color: 'from-green-500 to-teal-500',
+    border: 'hover:border-green-500',
+    icon: '💾'
+  },
+  {
+    title: 'Proyecto',
+    slug: 'proyecto',
+    desc: 'Proyecto final aplicado de diseño e implementación de base de datos.',
+    color: 'from-orange-500 to-rose-500',
+    border: 'hover:border-orange-500',
+    icon: '🚀'
+  },
 ];
 ---
 
 <BaseLayout title="Evidencias">
-
   <section class="py-16">
     <div class="text-center mb-16">
       <h1 class="text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
         Evidencias Académicas
       </h1>
       <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
-        Proyectos y trabajos desarrollados durante mi formación en Ingeniería de Sistemas.
+        Proyectos y trabajos desarrollados durante mi formación en Ingeniería de Sistemas —
+        Bases de Datos 1, Universidad El Bosque.
       </p>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div class="grid md:grid-cols-2 gap-8">
       {evidencias.map((item) => (
         <a
-          href={`/evidencias/${item.title.toLowerCase()}`}
-          class="relative group p-8 rounded-3xl bg-gradient-to-br from-white to-gray-50 border border-gray-200 hover:border-blue-500 hover:-translate-y-2 transition-all duration-300 shadow-md hover:shadow-2xl"
+          href={`/evidencias/${item.slug}`}
+          class={`relative group p-8 rounded-3xl bg-white border border-gray-200 ${item.border} hover:-translate-y-2 transition-all duration-300 shadow-md hover:shadow-2xl flex gap-5 items-start`}
         >
-          <div class="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-5 rounded-3xl transition"></div>
-
-          <h2 class="text-2xl font-semibold mb-4 group-hover:text-blue-600 transition">
-            {item.title}
-          </h2>
-
-          <p class="text-gray-500 text-sm">
-            {item.desc}
-          </p>
-
-          <div class="mt-6 text-blue-600 font-medium opacity-0 group-hover:opacity-100 transition">
-            Ver más →
+          <div class={`text-4xl bg-gradient-to-br ${item.color} bg-clip-text text-transparent select-none`}>
+            {item.icon}
+          </div>
+          <div>
+            <h2 class="text-xl font-semibold mb-2 group-hover:text-blue-600 transition">
+              {item.title}
+            </h2>
+            <p class="text-gray-500 text-sm leading-relaxed">
+              {item.desc}
+            </p>
+            <span class="mt-4 inline-block text-blue-600 text-sm font-medium opacity-0 group-hover:opacity-100 transition">
+              Ver ejercicios →
+            </span>
           </div>
         </a>
       ))}
     </div>
   </section>
-
 </BaseLayout>

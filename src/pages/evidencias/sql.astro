@@ -1,0 +1,384 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="SQL – Evidencias">
+
+<section class="py-12">
+  <div class="mb-12">
+    <a href="/evidencias" class="text-blue-600 text-sm hover:underline">← Evidencias</a>
+    <h1 class="text-4xl font-bold mt-4 bg-gradient-to-r from-green-600 to-teal-500 bg-clip-text text-transparent">
+      Consultas SQL
+    </h1>
+    <p class="mt-3 text-gray-600 max-w-3xl">
+      Soluciones en álgebra relacional y SQL para el esquema del Taller Corte 2
+      de Bases de Datos 1.
+    </p>
+  </div>
+
+  <!-- Esquema -->
+  <div class="mb-12 rounded-2xl border border-gray-200 bg-gray-50 p-6">
+    <h2 class="text-lg font-semibold text-gray-800 mb-3">Esquema de tablas</h2>
+    <div class="font-mono text-xs text-gray-700 space-y-1">
+      <p>Alumno = (cod, nom, dir, tel, genero)</p>
+      <p>Materia = (cod, nom, IntHor, semestre)</p>
+      <p>Inscripcion = (cod_a, cod_m, grupo, nota1, nota2, nota3)</p>
+      <p>Libro = (isbn, titulo, autor)</p>
+      <p>Ejemplar = (cod_l, isbn)</p>
+      <p>Bibliografia = (cod_m, isbn)</p>
+      <p>Prestamo = (cod_a, cod_l, f_prestamo, f_entrega)</p>
+    </div>
+  </div>
+
+  <!-- Consultas -->
+  <div class="space-y-8">
+
+    <!-- Q1 -->
+    <div class="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100 bg-green-50 flex items-center gap-3">
+        <span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-full">Q1</span>
+        <p class="font-medium text-gray-800">Cantidad de estudiantes inscritos en cada asignatura, ordenados ascendentemente por nombre.</p>
+      </div>
+      <div class="px-6 py-5 grid md:grid-cols-2 gap-6">
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Álgebra Relacional</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs">
+            <p>γ Materia.nom, COUNT(cod_a)→total</p>
+            <p class="ml-4">(Inscripcion ⋈ Materia)</p>
+            <p>τ Materia.nom ASC</p>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">SQL</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs leading-6">
+            <p><span class="text-blue-400">SELECT</span> m.nom <span class="text-blue-400">AS</span> asignatura,</p>
+            <p class="ml-8"><span class="text-yellow-400">COUNT</span>(i.cod_a) <span class="text-blue-400">AS</span> total_estudiantes</p>
+            <p><span class="text-blue-400">FROM</span> Materia m</p>
+            <p><span class="text-blue-400">JOIN</span> Inscripcion i <span class="text-blue-400">ON</span> m.cod = i.cod_m</p>
+            <p><span class="text-blue-400">GROUP BY</span> m.cod, m.nom</p>
+            <p><span class="text-blue-400">ORDER BY</span> m.nom <span class="text-blue-400">ASC</span>;</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100 bg-green-50 flex items-center gap-3">
+        <span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-full">Q2</span>
+        <p class="font-medium text-gray-800">Listado de alumnos que ven Bases de Datos, agrupados por género.</p>
+      </div>
+      <div class="px-6 py-5 grid md:grid-cols-2 gap-6">
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Álgebra Relacional</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs">
+            <p>BDmat ← σ nom='Bases de Datos'(Materia)</p>
+            <p>Inscritos ← Inscripcion ⋈ BDmat</p>
+            <p>π genero, nom (Alumno ⋈ Inscritos)</p>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">SQL</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs leading-6">
+            <p><span class="text-blue-400">SELECT</span> a.genero, a.nom</p>
+            <p><span class="text-blue-400">FROM</span> Alumno a</p>
+            <p><span class="text-blue-400">JOIN</span> Inscripcion i <span class="text-blue-400">ON</span> a.cod = i.cod_a</p>
+            <p><span class="text-blue-400">JOIN</span> Materia m <span class="text-blue-400">ON</span> i.cod_m = m.cod</p>
+            <p><span class="text-blue-400">WHERE</span> m.nom = <span class="text-orange-300">'Bases de Datos'</span></p>
+            <p><span class="text-blue-400">ORDER BY</span> a.genero, a.nom;</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100 bg-green-50 flex items-center gap-3">
+        <span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-full">Q3</span>
+        <p class="font-medium text-gray-800">Títulos de libros que son bibliografía de Ingeniería de Software.</p>
+      </div>
+      <div class="px-6 py-5 grid md:grid-cols-2 gap-6">
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Álgebra Relacional</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs">
+            <p>IS ← σ nom='Ingeniería de Software'(Materia)</p>
+            <p>BibIS ← IS ⋈ Bibliografia</p>
+            <p>π titulo (Libro ⋈ BibIS)</p>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">SQL</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs leading-6">
+            <p><span class="text-blue-400">SELECT</span> l.titulo</p>
+            <p><span class="text-blue-400">FROM</span> Libro l</p>
+            <p><span class="text-blue-400">JOIN</span> Bibliografia b <span class="text-blue-400">ON</span> l.isbn = b.isbn</p>
+            <p><span class="text-blue-400">JOIN</span> Materia m <span class="text-blue-400">ON</span> b.cod_m = m.cod</p>
+            <p><span class="text-blue-400">WHERE</span> m.nom = <span class="text-orange-300">'Ingeniería de Software'</span>;</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100 bg-green-50 flex items-center gap-3">
+        <span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-full">Q5</span>
+        <p class="font-medium text-gray-800">El título del libro que más veces se ha prestado.</p>
+      </div>
+      <div class="px-6 py-5 grid md:grid-cols-2 gap-6">
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Álgebra Relacional</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs">
+            <p>Cont ← γ isbn, COUNT(*)→c (Prestamo ⋈ Ejemplar)</p>
+            <p>MaxC ← MAX(c)(Cont)</p>
+            <p>π titulo (Libro ⋈ σ c=MaxC(Cont))</p>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">SQL</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs leading-6">
+            <p><span class="text-blue-400">SELECT</span> l.titulo</p>
+            <p><span class="text-blue-400">FROM</span> Libro l</p>
+            <p><span class="text-blue-400">JOIN</span> Ejemplar e <span class="text-blue-400">ON</span> l.isbn = e.isbn</p>
+            <p><span class="text-blue-400">JOIN</span> Prestamo p <span class="text-blue-400">ON</span> e.cod_l = p.cod_l</p>
+            <p><span class="text-blue-400">GROUP BY</span> l.isbn, l.titulo</p>
+            <p><span class="text-blue-400">ORDER BY</span> <span class="text-yellow-400">COUNT</span>(*) <span class="text-blue-400">DESC</span></p>
+            <p><span class="text-blue-400">LIMIT</span> 1;</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100 bg-green-50 flex items-center gap-3">
+        <span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-full">Q7</span>
+        <p class="font-medium text-gray-800">Nombre Alumno, Nombre Materia, Nota Definitiva — ordenados.</p>
+      </div>
+      <div class="px-6 py-5 grid md:grid-cols-2 gap-6">
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Álgebra Relacional</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs">
+            <p>π a.nom, m.nom,</p>
+            <p class="ml-4">(nota1+nota2+nota3)/3→def</p>
+            <p>(Alumno ⋈ Inscripcion ⋈ Materia)</p>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">SQL</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs leading-6">
+            <p><span class="text-blue-400">SELECT</span> a.nom <span class="text-blue-400">AS</span> alumno,</p>
+            <p class="ml-8">m.nom <span class="text-blue-400">AS</span> materia,</p>
+            <p class="ml-8"><span class="text-yellow-400">ROUND</span>((i.nota1+i.nota2+i.nota3)/3,1) <span class="text-blue-400">AS</span> definitiva</p>
+            <p><span class="text-blue-400">FROM</span> Alumno a</p>
+            <p><span class="text-blue-400">JOIN</span> Inscripcion i <span class="text-blue-400">ON</span> a.cod = i.cod_a</p>
+            <p><span class="text-blue-400">JOIN</span> Materia m <span class="text-blue-400">ON</span> i.cod_m = m.cod</p>
+            <p><span class="text-blue-400">ORDER BY</span> a.nom, m.nom;</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100 bg-green-50 flex items-center gap-3">
+        <span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-full">Q8</span>
+        <p class="font-medium text-gray-800">Nota promedio de cada alumno.</p>
+      </div>
+      <div class="px-6 py-5 grid md:grid-cols-2 gap-6">
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Álgebra Relacional</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs">
+            <p>γ a.nom, AVG((n1+n2+n3)/3)→prom</p>
+            <p class="ml-4">(Alumno ⋈ Inscripcion)</p>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">SQL</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs leading-6">
+            <p><span class="text-blue-400">SELECT</span> a.nom,</p>
+            <p class="ml-8"><span class="text-yellow-400">ROUND</span>(<span class="text-yellow-400">AVG</span>((i.nota1+i.nota2+i.nota3)/3),2)</p>
+            <p class="ml-8"><span class="text-blue-400">AS</span> nota_promedio</p>
+            <p><span class="text-blue-400">FROM</span> Alumno a</p>
+            <p><span class="text-blue-400">JOIN</span> Inscripcion i <span class="text-blue-400">ON</span> a.cod = i.cod_a</p>
+            <p><span class="text-blue-400">GROUP BY</span> a.cod, a.nom</p>
+            <p><span class="text-blue-400">ORDER BY</span> a.nom;</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100 bg-green-50 flex items-center gap-3">
+        <span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-full">Q9</span>
+        <p class="font-medium text-gray-800">Datos de los alumnos cuyo promedio de notas sea superior a 4.0</p>
+      </div>
+      <div class="px-6 py-5 grid md:grid-cols-2 gap-6">
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Álgebra Relacional</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs">
+            <p>Prom ← γ cod_a, AVG((n1+n2+n3)/3)→p (Inscripcion)</p>
+            <p>Sobre4 ← σ p &gt; 4.0 (Prom)</p>
+            <p>Alumno ⋈ Sobre4</p>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">SQL</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs leading-6">
+            <p><span class="text-blue-400">SELECT</span> a.*</p>
+            <p><span class="text-blue-400">FROM</span> Alumno a</p>
+            <p><span class="text-blue-400">WHERE</span> a.cod <span class="text-blue-400">IN</span> (</p>
+            <p class="ml-4"><span class="text-blue-400">SELECT</span> i.cod_a</p>
+            <p class="ml-4"><span class="text-blue-400">FROM</span> Inscripcion i</p>
+            <p class="ml-4"><span class="text-blue-400">GROUP BY</span> i.cod_a</p>
+            <p class="ml-4"><span class="text-blue-400">HAVING</span> <span class="text-yellow-400">AVG</span>((i.nota1+i.nota2+i.nota3)/3) &gt; 4.0</p>
+            <p>);</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100 bg-green-50 flex items-center gap-3">
+        <span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-full">Q12</span>
+        <p class="font-medium text-gray-800">Libros y autores sin ejemplares disponibles para préstamo, ordenados ascendentemente.</p>
+      </div>
+      <div class="px-6 py-5 grid md:grid-cols-2 gap-6">
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Álgebra Relacional</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs">
+            <p>ConEjemplar ← π isbn (Ejemplar)</p>
+            <p>SinEjemplar ← π isbn (Libro) − ConEjemplar</p>
+            <p>π titulo, autor (Libro ⋈ SinEjemplar)</p>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">SQL</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs leading-6">
+            <p><span class="text-blue-400">SELECT</span> l.titulo, l.autor</p>
+            <p><span class="text-blue-400">FROM</span> Libro l</p>
+            <p><span class="text-blue-400">WHERE</span> l.isbn <span class="text-blue-400">NOT IN</span> (</p>
+            <p class="ml-4"><span class="text-blue-400">SELECT DISTINCT</span> isbn <span class="text-blue-400">FROM</span> Ejemplar</p>
+            <p>)</p>
+            <p><span class="text-blue-400">ORDER BY</span> l.titulo <span class="text-blue-400">ASC</span>;</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-100 bg-green-50 flex items-center gap-3">
+        <span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-full">Q14</span>
+        <p class="font-medium text-gray-800">Nombres de libros que no hayan sido prestados en el año 2021.</p>
+      </div>
+      <div class="px-6 py-5 grid md:grid-cols-2 gap-6">
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Álgebra Relacional</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs">
+            <p>Prest2021 ← σ YEAR(f_prestamo)=2021 (Prestamo)</p>
+            <p>EjConPrest ← π isbn (Ejemplar ⋈ Prest2021)</p>
+            <p>π titulo (Libro − (Libro ⋈ EjConPrest))</p>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">SQL</p>
+          <div class="bg-gray-900 text-green-300 rounded-xl p-4 font-mono text-xs leading-6">
+            <p><span class="text-blue-400">SELECT</span> l.titulo</p>
+            <p><span class="text-blue-400">FROM</span> Libro l</p>
+            <p><span class="text-blue-400">WHERE</span> l.isbn <span class="text-blue-400">NOT IN</span> (</p>
+            <p class="ml-4"><span class="text-blue-400">SELECT</span> e.isbn</p>
+            <p class="ml-4"><span class="text-blue-400">FROM</span> Ejemplar e</p>
+            <p class="ml-4"><span class="text-blue-400">JOIN</span> Prestamo p <span class="text-blue-400">ON</span> e.cod_l = p.cod_l</p>
+            <p class="ml-4"><span class="text-blue-400">WHERE</span> <span class="text-yellow-400">YEAR</span>(p.f_prestamo) = <span class="text-orange-300">2021</span></p>
+            <p>);</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Diagrama MER del esquema -->
+  <div class="mt-16">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Diagrama E-R del esquema</h2>
+    <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+      <div id="er-taller2"></div>
+    </div>
+  </div>
+
+</section>
+
+<script type="module">
+import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';
+const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+await document.fonts.ready;
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  fontFamily: 'ui-sans-serif, system-ui, sans-serif',
+  themeVariables: {
+    darkMode: dark,
+    fontSize: '13px',
+    lineColor: dark ? '#9c9a92' : '#73726c',
+    textColor: dark ? '#c2c0b6' : '#3d3d3a',
+    primaryColor: dark ? '#14532d' : '#dcfce7',
+    primaryTextColor: dark ? '#86efac' : '#166534',
+    primaryBorderColor: dark ? '#22c55e' : '#86efac',
+  },
+});
+
+const { svg } = await mermaid.render('er-taller2-svg', `erDiagram
+  ALUMNO {
+    int cod PK
+    string nom
+    string dir
+    string tel
+    string genero
+  }
+  MATERIA {
+    int cod PK
+    string nom
+    int IntHor
+    int semestre
+  }
+  INSCRIPCION {
+    int cod_a FK
+    int cod_m FK
+    int grupo
+    float nota1
+    float nota2
+    float nota3
+  }
+  LIBRO {
+    string isbn PK
+    string titulo
+    string autor
+  }
+  EJEMPLAR {
+    int cod_l PK
+    string isbn FK
+  }
+  BIBLIOGRAFIA {
+    int cod_m FK
+    string isbn FK
+  }
+  PRESTAMO {
+    int cod_a FK
+    int cod_l FK
+    date f_prestamo
+    date f_entrega
+  }
+  ALUMNO ||--|{ INSCRIPCION : "inscribir"
+  MATERIA ||--|{ INSCRIPCION : "tener"
+  MATERIA ||--|{ BIBLIOGRAFIA : "requerir"
+  LIBRO ||--|{ BIBLIOGRAFIA : "pertenecer"
+  LIBRO ||--|{ EJEMPLAR : "tener"
+  ALUMNO ||--o{ PRESTAMO : "realizar"
+  EJEMPLAR ||--o{ PRESTAMO : "prestar"
+`);
+document.getElementById('er-taller2').innerHTML = svg;
+</script>
+</BaseLayout>
