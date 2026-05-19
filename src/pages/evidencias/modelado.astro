@@ -261,13 +261,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 <script type="module">
 (async () => {
-  const mermaid = (await import(
+
+  const mermaidModule = await import(
     'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs'
-  )).default;
+  );
+
+  const mermaid = mermaidModule.default;
 
   const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-  await document.fonts.ready;
 
   mermaid.initialize({
     startOnLoad: false,
@@ -292,21 +293,138 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       if (el) {
         el.innerHTML = svg;
       }
-    } catch (err) {
-      console.error('Error renderizando Mermaid:', err);
+    } catch (error) {
+      console.error(`Error renderizando ${id}:`, error);
     }
   }
 
-  await renderDiagram('er1', `erDiagram
-    CONDUCTOR {
-      string cedula PK
-      string nombre
-    }
-    PAQUETE {
-      int cod_paquete PK
-    }
-    CONDUCTOR ||--o{ PAQUETE : distribuir
-  `);
+  await renderDiagram('er1', `
+erDiagram
+  CONDUCTOR {
+    string cedula PK
+    string nombre
+    string telefono
+    string direccion
+    float salario
+    string ciudad
+  }
+
+  CAMION {
+    string matricula PK
+    string modelo
+    string tipo
+    float potencia
+  }
+
+  CIUDAD {
+    string cod_ciudad PK
+    string nombre
+  }
+
+  PAQUETE {
+    int cod_paquete PK
+    string descripcion
+    string destinatario
+    string dir_destinatario
+    string cedula_conductor FK
+    string cod_ciudad FK
+  }
+
+  ASIGNACION {
+    string cedula_conductor FK
+    string matricula_camion FK
+    date fecha
+  }
+
+  CONDUCTOR ||--o{ PAQUETE : distribuir
+  CIUDAD ||--o{ PAQUETE : recibir
+  CONDUCTOR ||--|{ ASIGNACION : conducir
+  CAMION ||--|{ ASIGNACION : asignar
+`);
+
+  await renderDiagram('er2', `
+erDiagram
+  AGENTE {
+    int cod_agente PK
+    string primer_nombre
+    string primer_apellido
+    string cedula
+    string genero
+    date fecha_nacimiento
+    int ventas_ultimo_mes
+  }
+
+  CASA {
+    int cod_casa PK
+    float precio
+    string direccion
+    string propietario
+    int cod_agente FK
+  }
+
+  CARACTERISTICA {
+    int cod_caracteristica PK
+    string nombre
+    string descripcion
+  }
+
+  CLIENTE {
+    int cod_cliente PK
+    string nombre
+    float precio_min
+    float precio_max
+  }
+
+  CASA_CARACTERISTICA {
+    int cod_casa FK
+    int cod_caracteristica FK
+    string valor
+  }
+
+  PREFERENCIA {
+    int cod_cliente FK
+    int cod_caracteristica FK
+    string valor_deseado
+  }
+
+  AGENTE ||--o{ CASA : listar
+  CASA ||--|{ CASA_CARACTERISTICA : tener
+  CARACTERISTICA ||--|{ CASA_CARACTERISTICA : describir
+  CLIENTE ||--|{ PREFERENCIA : preferir
+  CARACTERISTICA ||--|{ PREFERENCIA : aplicar
+`);
+
+  await renderDiagram('er3', `
+erDiagram
+  USUARIO {
+    int num_cuenta PK
+    string nombre
+    string direccion
+    string telefono
+    date fecha_nacimiento
+    int num_patrocinador FK
+  }
+
+  ARTICULO {
+    int cod_articulo PK
+    string titulo
+    string tipo
+    string autor
+  }
+
+  PRESTAMO {
+    int cod_prestamo PK
+    int num_cuenta FK
+    int cod_articulo FK
+    date fecha_prestamo
+    date fecha_limite
+    date fecha_devolucion
+    float penalizacion
+  }
+
+  USUARIO ||--o{ PRESTAMO : realizar
+  ARTICULO ||--o{ PRESTAMO : pertenecer
+`);
 
 })();
 </script>
