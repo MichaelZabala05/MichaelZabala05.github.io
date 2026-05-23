@@ -21,42 +21,21 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
   <!-- Ficha técnica -->
   <div class="grid md:grid-cols-4 gap-4 mb-14">
-    {[
-      { label: 'Motor', value: 'PostgreSQL 16' },
-      { label: 'Tablas', value: '15 entidades' },
-      { label: 'Registros', value: '+500 datos' },
-      { label: 'Materia', value: 'Bases de Datos 1' },
-    ].map(item => (
-      <div class="rounded-2xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
-        <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">{item.label}</p>
-        <p class="text-lg font-bold text-gray-800">{item.value}</p>
-      </div>
-    ))}
-  </div>
-
-  <!-- Captura de pantalla -->
-  <div class="mb-14 rounded-3xl overflow-hidden border border-gray-200 shadow-xl">
-    <div class="bg-gray-800 px-4 py-2 flex items-center gap-2">
-      <span class="w-3 h-3 rounded-full bg-red-400"></span>
-      <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
-      <span class="w-3 h-3 rounded-full bg-green-400"></span>
-      <span class="ml-3 text-gray-400 text-xs font-mono">SprintDev Bank — Panel principal</span>
+    <div class="rounded-2xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
+      <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Motor</p>
+      <p class="text-lg font-bold text-gray-800">PostgreSQL 16</p>
     </div>
-    <img
-      src="/sprintdev-preview.png"
-      alt="Pantalla principal de SprintDev Bank"
-      class="w-full"
-      onerror="this.style.display='none'; document.getElementById('preview-placeholder').style.display='flex';"
-    />
-    <div
-      id="preview-placeholder"
-      class="hidden items-center justify-center bg-gradient-to-br from-indigo-900 to-violet-900 h-72 text-white"
-    >
-      <div class="text-center">
-        <p class="text-4xl font-black tracking-tight">SprintDev</p>
-        <p class="text-2xl font-bold text-fuchsia-400">Bank</p>
-        <p class="mt-2 text-sm text-indigo-300">Plataforma financiera · Gestión de fraude</p>
-      </div>
+    <div class="rounded-2xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
+      <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Tablas</p>
+      <p class="text-lg font-bold text-gray-800">15 entidades</p>
+    </div>
+    <div class="rounded-2xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
+      <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Registros</p>
+      <p class="text-lg font-bold text-gray-800">+500 datos</p>
+    </div>
+    <div class="rounded-2xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
+      <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Materia</p>
+      <p class="text-lg font-bold text-gray-800">Bases de Datos 1</p>
     </div>
   </div>
 
@@ -72,7 +51,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           SprintDev Bank es una base de datos relacional diseñada para gestionar las
           operaciones de un banco digital: clientes, productos financieros (cuentas,
           tarjetas y créditos), transacciones y un motor de detección de fraude basado
-          en reglas configurables.
+          en reglas configurables con diferentes niveles de severidad.
         </p>
       </div>
       <div>
@@ -80,7 +59,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         <ul class="space-y-1 list-disc list-inside">
           <li>Herencia lógica en <code>producto_financiero</code> con tablas hijas.</li>
           <li>Autorrelación en <code>transaccion</code> para manejar reversas.</li>
-          <li>Tabla pivote <code>alerta_transaccion</code> para N:M fraude.</li>
+          <li>Tabla pivote <code>alerta_transaccion</code> para relación N:M fraude.</li>
           <li>Tipos nativos: <code>BOOLEAN</code>, <code>NUMERIC</code>, <code>TIMESTAMP</code>.</li>
           <li>Constraints <code>CHECK</code> en todos los campos de enumeración.</li>
         </ul>
@@ -95,93 +74,113 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </div>
     <div class="px-8 py-8 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
 
-      <!-- Módulo Maestras -->
+      <!-- Tablas maestras -->
       <div class="rounded-2xl border border-violet-200 bg-violet-50 p-5">
         <p class="text-xs font-bold uppercase tracking-wider text-violet-500 mb-3">Tablas maestras</p>
         <div class="space-y-2">
-          {[
-            { name: 'CLIENTE', pk: 'id_cliente', note: '50 registros · estado: activo/bloqueado/investigacion' },
-            { name: 'EMPLEADO', pk: 'id_empleado', note: '50 registros · cargos: cajero, analista, supervisor…' },
-            { name: 'CANAL', pk: 'id_canal', note: 'web · app · cajero · oficina' },
-          ].map(t => (
-            <div class="bg-white rounded-xl px-4 py-3 border border-violet-100">
-              <p class="font-bold text-violet-800 text-xs">{t.name}</p>
-              <p class="text-violet-600 text-xs font-mono">PK: {t.pk}</p>
-              <p class="text-gray-400 text-xs mt-1">{t.note}</p>
-            </div>
-          ))}
+          <div class="bg-white rounded-xl px-4 py-3 border border-violet-100">
+            <p class="font-bold text-violet-800 text-xs">CLIENTE</p>
+            <p class="text-violet-600 text-xs font-mono">PK: id_cliente</p>
+            <p class="text-gray-400 text-xs mt-1">50 registros · estado: activo / bloqueado / investigacion</p>
+          </div>
+          <div class="bg-white rounded-xl px-4 py-3 border border-violet-100">
+            <p class="font-bold text-violet-800 text-xs">EMPLEADO</p>
+            <p class="text-violet-600 text-xs font-mono">PK: id_empleado</p>
+            <p class="text-gray-400 text-xs mt-1">50 registros · cajero, analista, supervisor…</p>
+          </div>
+          <div class="bg-white rounded-xl px-4 py-3 border border-violet-100">
+            <p class="font-bold text-violet-800 text-xs">CANAL</p>
+            <p class="text-violet-600 text-xs font-mono">PK: id_canal</p>
+            <p class="text-gray-400 text-xs mt-1">web · app · cajero · oficina</p>
+          </div>
         </div>
       </div>
 
-      <!-- Módulo Productos Financieros -->
+      <!-- Productos financieros -->
       <div class="rounded-2xl border border-blue-200 bg-blue-50 p-5">
         <p class="text-xs font-bold uppercase tracking-wider text-blue-500 mb-3">Productos financieros</p>
         <div class="space-y-2">
-          {[
-            { name: 'PRODUCTO_FINANCIERO', pk: 'id_producto', note: 'Tabla padre — herencia lógica' },
-            { name: 'CUENTA', pk: 'id_producto (FK/PK)', note: 'ahorro · corriente · saldo ≥ 0' },
-            { name: 'TARJETA', pk: 'id_producto (FK/PK)', note: 'débito · crédito · cupo + vencimiento' },
-            { name: 'CREDITO', pk: 'id_producto (FK/PK)', note: 'monto, saldo pendiente, tasa interés' },
-          ].map(t => (
-            <div class="bg-white rounded-xl px-4 py-3 border border-blue-100">
-              <p class="font-bold text-blue-800 text-xs">{t.name}</p>
-              <p class="text-blue-600 text-xs font-mono">PK: {t.pk}</p>
-              <p class="text-gray-400 text-xs mt-1">{t.note}</p>
-            </div>
-          ))}
+          <div class="bg-white rounded-xl px-4 py-3 border border-blue-100">
+            <p class="font-bold text-blue-800 text-xs">PRODUCTO_FINANCIERO</p>
+            <p class="text-blue-600 text-xs font-mono">PK: id_producto</p>
+            <p class="text-gray-400 text-xs mt-1">Tabla padre — herencia lógica</p>
+          </div>
+          <div class="bg-white rounded-xl px-4 py-3 border border-blue-100">
+            <p class="font-bold text-blue-800 text-xs">CUENTA</p>
+            <p class="text-blue-600 text-xs font-mono">PK/FK: id_producto</p>
+            <p class="text-gray-400 text-xs mt-1">ahorro · corriente · saldo ≥ 0</p>
+          </div>
+          <div class="bg-white rounded-xl px-4 py-3 border border-blue-100">
+            <p class="font-bold text-blue-800 text-xs">TARJETA</p>
+            <p class="text-blue-600 text-xs font-mono">PK/FK: id_producto</p>
+            <p class="text-gray-400 text-xs mt-1">débito · crédito · cupo + vencimiento</p>
+          </div>
+          <div class="bg-white rounded-xl px-4 py-3 border border-blue-100">
+            <p class="font-bold text-blue-800 text-xs">CREDITO</p>
+            <p class="text-blue-600 text-xs font-mono">PK/FK: id_producto</p>
+            <p class="text-gray-400 text-xs mt-1">monto, saldo pendiente, tasa interés</p>
+          </div>
         </div>
       </div>
 
-      <!-- Módulo Fraude -->
+      <!-- Fraude -->
       <div class="rounded-2xl border border-rose-200 bg-rose-50 p-5">
         <p class="text-xs font-bold uppercase tracking-wider text-rose-500 mb-3">Detección de fraude</p>
         <div class="space-y-2">
-          {[
-            { name: 'REGLA_FRAUDE', pk: 'id_regla', note: 'frecuencia · monto_umbral · canal_inusual…' },
-            { name: 'ALERTA_FRAUDE', pk: 'id_alerta', note: 'severidad: baja/media/alta/critica' },
-            { name: 'ALERTA_TRANSACCION', pk: 'id_alerta + id_transaccion', note: 'Tabla pivote N:M' },
-          ].map(t => (
-            <div class="bg-white rounded-xl px-4 py-3 border border-rose-100">
-              <p class="font-bold text-rose-800 text-xs">{t.name}</p>
-              <p class="text-rose-600 text-xs font-mono">PK: {t.pk}</p>
-              <p class="text-gray-400 text-xs mt-1">{t.note}</p>
-            </div>
-          ))}
+          <div class="bg-white rounded-xl px-4 py-3 border border-rose-100">
+            <p class="font-bold text-rose-800 text-xs">REGLA_FRAUDE</p>
+            <p class="text-rose-600 text-xs font-mono">PK: id_regla</p>
+            <p class="text-gray-400 text-xs mt-1">frecuencia · monto_umbral · canal_inusual…</p>
+          </div>
+          <div class="bg-white rounded-xl px-4 py-3 border border-rose-100">
+            <p class="font-bold text-rose-800 text-xs">ALERTA_FRAUDE</p>
+            <p class="text-rose-600 text-xs font-mono">PK: id_alerta</p>
+            <p class="text-gray-400 text-xs mt-1">severidad: baja / media / alta / critica</p>
+          </div>
+          <div class="bg-white rounded-xl px-4 py-3 border border-rose-100">
+            <p class="font-bold text-rose-800 text-xs">ALERTA_TRANSACCION</p>
+            <p class="text-rose-600 text-xs font-mono">PK: id_alerta + id_transaccion</p>
+            <p class="text-gray-400 text-xs mt-1">Tabla pivote N:M</p>
+          </div>
         </div>
       </div>
 
-      <!-- Módulo Transacciones -->
+      <!-- Transacciones -->
       <div class="rounded-2xl border border-green-200 bg-green-50 p-5">
         <p class="text-xs font-bold uppercase tracking-wider text-green-500 mb-3">Transacciones</p>
         <div class="space-y-2">
-          {[
-            { name: 'TRANSACCION', pk: 'id_transaccion', note: 'Autorrelación para reversas · es_fallida (BOOLEAN)' },
-            { name: 'ESTADO_TRANSACCION', pk: 'id_estado_transaccion', note: 'pendiente · aplicada · rechazada · reversada' },
-          ].map(t => (
-            <div class="bg-white rounded-xl px-4 py-3 border border-green-100">
-              <p class="font-bold text-green-800 text-xs">{t.name}</p>
-              <p class="text-green-600 text-xs font-mono">PK: {t.pk}</p>
-              <p class="text-gray-400 text-xs mt-1">{t.note}</p>
-            </div>
-          ))}
+          <div class="bg-white rounded-xl px-4 py-3 border border-green-100">
+            <p class="font-bold text-green-800 text-xs">TRANSACCION</p>
+            <p class="text-green-600 text-xs font-mono">PK: id_transaccion</p>
+            <p class="text-gray-400 text-xs mt-1">Autorrelación para reversas · es_fallida BOOLEAN</p>
+          </div>
+          <div class="bg-white rounded-xl px-4 py-3 border border-green-100">
+            <p class="font-bold text-green-800 text-xs">ESTADO_TRANSACCION</p>
+            <p class="text-green-600 text-xs font-mono">PK: id_estado_transaccion</p>
+            <p class="text-gray-400 text-xs mt-1">pendiente · aplicada · rechazada · reversada</p>
+          </div>
         </div>
       </div>
 
-      <!-- Módulo Auditoría -->
+      <!-- Auditoría -->
       <div class="rounded-2xl border border-amber-200 bg-amber-50 p-5">
-        <p class="text-xs font-bold uppercase tracking-wider text-amber-500 mb-3">Auditoría</p>
+        <p class="text-xs font-bold uppercase tracking-wider text-amber-500 mb-3">Auditoría y estados</p>
         <div class="space-y-2">
-          {[
-            { name: 'EVENTO_AUDITORIA', pk: 'id_evento', note: 'Trazabilidad de clientes, empleados y sistema' },
-            { name: 'ESTADO_PRODUCTO', pk: 'id_estado_producto', note: 'activo · bloqueado · cancelado' },
-            { name: 'ESTADO_ALERTA', pk: 'id_estado_alerta', note: 'abierta · en_revision · cerrada' },
-          ].map(t => (
-            <div class="bg-white rounded-xl px-4 py-3 border border-amber-100">
-              <p class="font-bold text-amber-800 text-xs">{t.name}</p>
-              <p class="text-amber-600 text-xs font-mono">PK: {t.pk}</p>
-              <p class="text-gray-400 text-xs mt-1">{t.note}</p>
-            </div>
-          ))}
+          <div class="bg-white rounded-xl px-4 py-3 border border-amber-100">
+            <p class="font-bold text-amber-800 text-xs">EVENTO_AUDITORIA</p>
+            <p class="text-amber-600 text-xs font-mono">PK: id_evento</p>
+            <p class="text-gray-400 text-xs mt-1">Trazabilidad: cliente / empleado / sistema</p>
+          </div>
+          <div class="bg-white rounded-xl px-4 py-3 border border-amber-100">
+            <p class="font-bold text-amber-800 text-xs">ESTADO_PRODUCTO</p>
+            <p class="text-amber-600 text-xs font-mono">PK: id_estado_producto</p>
+            <p class="text-gray-400 text-xs mt-1">activo · bloqueado · cancelado</p>
+          </div>
+          <div class="bg-white rounded-xl px-4 py-3 border border-amber-100">
+            <p class="font-bold text-amber-800 text-xs">ESTADO_ALERTA</p>
+            <p class="text-amber-600 text-xs font-mono">PK: id_estado_alerta</p>
+            <p class="text-gray-400 text-xs mt-1">abierta · en_revision · cerrada</p>
+          </div>
         </div>
       </div>
 
@@ -205,124 +204,132 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <h2 class="text-2xl font-bold">Scripts SQL entregados</h2>
     </div>
     <div class="px-8 py-8 grid md:grid-cols-3 gap-5">
-      {[
-        {
-          title: 'Creacion_de_la_DB.sql',
-          icon: '🏗️',
-          color: 'border-violet-200 bg-violet-50',
-          titleColor: 'text-violet-800',
-          desc: 'Creación de la base de datos bosquebank, 15 tablas con llaves primarias, foráneas, constraints CHECK y UNIQUE, e índices de rendimiento.',
-          tags: ['DROP/CREATE', 'BIGSERIAL', 'FK / CHECK', 'INDEX'],
-        },
-        {
-          title: 'Insert_de_datos.sql',
-          icon: '📦',
-          color: 'border-blue-200 bg-blue-50',
-          titleColor: 'text-blue-800',
-          desc: 'Datos de prueba: 50 clientes, 50 empleados, 25 reglas de fraude, productos financieros, transacciones y alertas con variedad de estados y canales.',
-          tags: ['50 clientes', '50 empleados', '25 reglas', 'Alertas'],
-        },
-        {
-          title: 'Actualizacion_de_posicion_de_Ids.sql',
-          icon: '🔄',
-          color: 'border-green-200 bg-green-50',
-          titleColor: 'text-green-800',
-          desc: 'Bloque PL/pgSQL que recorre todas las columnas SERIAL del esquema y resetea cada secuencia al MAX(id) + 1, evitando conflictos al insertar nuevos registros.',
-          tags: ['PL/pgSQL', 'BIGSERIAL', 'setval()', 'information_schema'],
-        },
-      ].map(s => (
-        <div class={`rounded-2xl border p-5 ${s.color}`}>
-          <p class="text-2xl mb-3">{s.icon}</p>
-          <p class={`font-bold text-sm font-mono mb-2 ${s.titleColor}`}>{s.title}</p>
-          <p class="text-gray-600 text-xs leading-relaxed mb-4">{s.desc}</p>
-          <div class="flex flex-wrap gap-2">
-            {s.tags.map(tag => (
-              <span class="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">{tag}</span>
-            ))}
-          </div>
+
+      <div class="rounded-2xl border border-violet-200 bg-violet-50 p-5">
+        <p class="text-2xl mb-3">🏗️</p>
+        <p class="font-bold text-sm font-mono text-violet-800 mb-2">Creacion_de_la_DB.sql</p>
+        <p class="text-gray-600 text-xs leading-relaxed mb-4">
+          Creación de la base de datos bosquebank con 15 tablas, llaves primarias,
+          foráneas, constraints CHECK y UNIQUE, e índices de rendimiento.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">DROP/CREATE</span>
+          <span class="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">BIGSERIAL</span>
+          <span class="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">FK / CHECK</span>
+          <span class="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">INDEX</span>
         </div>
-      ))}
+      </div>
+
+      <div class="rounded-2xl border border-blue-200 bg-blue-50 p-5">
+        <p class="text-2xl mb-3">📦</p>
+        <p class="font-bold text-sm font-mono text-blue-800 mb-2">Insert_de_datos.sql</p>
+        <p class="text-gray-600 text-xs leading-relaxed mb-4">
+          Datos de prueba: 50 clientes, 50 empleados, 25 reglas de fraude, productos
+          financieros, transacciones y alertas con variedad de estados y canales.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">50 clientes</span>
+          <span class="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">50 empleados</span>
+          <span class="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">25 reglas</span>
+          <span class="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">Alertas</span>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-green-200 bg-green-50 p-5">
+        <p class="text-2xl mb-3">🔄</p>
+        <p class="font-bold text-sm font-mono text-green-800 mb-2">Actualizacion_de_Ids.sql</p>
+        <p class="text-gray-600 text-xs leading-relaxed mb-4">
+          Bloque PL/pgSQL que recorre las columnas SERIAL y resetea cada secuencia
+          al MAX(id) + 1, evitando conflictos al insertar nuevos registros.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">PL/pgSQL</span>
+          <span class="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">BIGSERIAL</span>
+          <span class="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">setval()</span>
+          <span class="text-xs bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded-full">information_schema</span>
+        </div>
+      </div>
+
     </div>
   </article>
 
-  <!-- Extracto del DDL más relevante -->
+  <!-- Fragmentos DDL -->
   <article class="mb-14 rounded-3xl border border-gray-200 bg-white shadow-sm overflow-hidden">
     <div class="bg-gradient-to-r from-violet-50 to-fuchsia-50 border-b border-gray-200 px-8 py-6">
       <h2 class="text-2xl font-bold">Fragmentos clave del DDL</h2>
-      <p class="text-gray-500 text-sm mt-1">Decisiones técnicas destacadas en la creación de la base de datos.</p>
+      <p class="text-gray-500 text-sm mt-1">Decisiones técnicas destacadas en la creación del esquema.</p>
     </div>
     <div class="px-8 py-8 space-y-6">
 
-      <!-- Herencia lógica -->
       <div>
         <p class="text-sm font-semibold text-gray-700 mb-2">
           Herencia lógica — <code>producto_financiero</code> como tabla padre
         </p>
-        <div class="bg-gray-900 text-green-300 rounded-xl p-5 font-mono text-xs leading-6 overflow-x-auto">
-          <p><span class="text-blue-400">CREATE TABLE</span> producto_financiero (</p>
-          <p class="ml-4">id_producto     <span class="text-yellow-400">BIGSERIAL PRIMARY KEY</span>,</p>
-          <p class="ml-4">id_cliente      <span class="text-yellow-400">BIGINT NOT NULL</span>,</p>
-          <p class="ml-4">numero_producto <span class="text-yellow-400">VARCHAR(30) NOT NULL UNIQUE</span>,</p>
-          <p class="ml-4"><span class="text-blue-400">CONSTRAINT</span> fk_producto_cliente <span class="text-blue-400">FOREIGN KEY</span> (id_cliente)</p>
-          <p class="ml-8"><span class="text-blue-400">REFERENCES</span> cliente (id_cliente)</p>
-          <p>);</p>
-          <p class="mt-2"><span class="text-blue-400">CREATE TABLE</span> cuenta (</p>
-          <p class="ml-4">id_producto  <span class="text-yellow-400">BIGINT PRIMARY KEY</span>,  <span class="text-gray-500">-- comparte PK con padre</span></p>
-          <p class="ml-4">tipo_cuenta  <span class="text-yellow-400">VARCHAR(20) NOT NULL</span>,</p>
-          <p class="ml-4">saldo_actual <span class="text-yellow-400">NUMERIC(15,2) NOT NULL DEFAULT 0</span>,</p>
-          <p class="ml-4"><span class="text-blue-400">CONSTRAINT</span> ck_cuenta_tipo <span class="text-blue-400">CHECK</span></p>
-          <p class="ml-8">(tipo_cuenta <span class="text-blue-400">IN</span> (<span class="text-orange-300">'ahorro'</span>, <span class="text-orange-300">'corriente'</span>)),</p>
-          <p class="ml-4"><span class="text-blue-400">CONSTRAINT</span> fk_cuenta_producto <span class="text-blue-400">FOREIGN KEY</span> (id_producto)</p>
-          <p class="ml-8"><span class="text-blue-400">REFERENCES</span> producto_financiero (id_producto) <span class="text-blue-400">ON DELETE CASCADE</span></p>
-          <p>);</p>
+        <div class="bg-gray-900 rounded-xl p-5 font-mono text-xs leading-6 overflow-x-auto">
+          <p><span class="text-blue-400">CREATE TABLE</span> <span class="text-green-300">producto_financiero</span> (</p>
+          <p class="ml-4 text-green-300">id_producto     <span class="text-yellow-300">BIGSERIAL PRIMARY KEY</span>,</p>
+          <p class="ml-4 text-green-300">id_cliente      <span class="text-yellow-300">BIGINT NOT NULL</span>,</p>
+          <p class="ml-4 text-green-300">numero_producto <span class="text-yellow-300">VARCHAR(30) NOT NULL UNIQUE</span>,</p>
+          <p class="ml-4"><span class="text-blue-400">CONSTRAINT</span> <span class="text-green-300">fk_producto_cliente</span> <span class="text-blue-400">FOREIGN KEY</span> <span class="text-green-300">(id_cliente)</span></p>
+          <p class="ml-8"><span class="text-blue-400">REFERENCES</span> <span class="text-green-300">cliente (id_cliente)</span></p>
+          <p class="text-green-300">);</p>
+          <br>
+          <p><span class="text-blue-400">CREATE TABLE</span> <span class="text-green-300">cuenta</span> (</p>
+          <p class="ml-4 text-green-300">id_producto  <span class="text-yellow-300">BIGINT PRIMARY KEY</span>, <span class="text-gray-500">-- comparte PK con padre</span></p>
+          <p class="ml-4 text-green-300">tipo_cuenta  <span class="text-yellow-300">VARCHAR(20) NOT NULL</span>,</p>
+          <p class="ml-4 text-green-300">saldo_actual <span class="text-yellow-300">NUMERIC(15,2) NOT NULL DEFAULT 0</span>,</p>
+          <p class="ml-4"><span class="text-blue-400">CONSTRAINT</span> <span class="text-green-300">ck_cuenta_tipo</span> <span class="text-blue-400">CHECK</span></p>
+          <p class="ml-8 text-green-300">(tipo_cuenta <span class="text-blue-400">IN</span> (<span class="text-orange-300">'ahorro'</span>, <span class="text-orange-300">'corriente'</span>)),</p>
+          <p class="ml-4"><span class="text-blue-400">CONSTRAINT</span> <span class="text-green-300">fk_cuenta_producto</span> <span class="text-blue-400">FOREIGN KEY</span> <span class="text-green-300">(id_producto)</span></p>
+          <p class="ml-8"><span class="text-blue-400">REFERENCES</span> <span class="text-green-300">producto_financiero (id_producto)</span> <span class="text-blue-400">ON DELETE CASCADE</span></p>
+          <p class="text-green-300">);</p>
         </div>
       </div>
 
-      <!-- Autorrelación transaccion -->
       <div>
         <p class="text-sm font-semibold text-gray-700 mb-2">
           Autorrelación en <code>transaccion</code> para manejo de reversas
         </p>
-        <div class="bg-gray-900 text-green-300 rounded-xl p-5 font-mono text-xs leading-6 overflow-x-auto">
-          <p><span class="text-blue-400">CREATE TABLE</span> transaccion (</p>
-          <p class="ml-4">id_transaccion          <span class="text-yellow-400">BIGSERIAL PRIMARY KEY</span>,</p>
-          <p class="ml-4">id_transaccion_original <span class="text-yellow-400">BIGINT</span>,  <span class="text-gray-500">-- NULL si no es reversa</span></p>
-          <p class="ml-4">es_fallida              <span class="text-yellow-400">BOOLEAN NOT NULL DEFAULT FALSE</span>,</p>
-          <p class="ml-4">monto                   <span class="text-yellow-400">NUMERIC(15,2) NOT NULL</span>,</p>
-          <p class="ml-4"><span class="text-blue-400">CONSTRAINT</span> fk_transaccion_original <span class="text-blue-400">FOREIGN KEY</span></p>
-          <p class="ml-8">(id_transaccion_original) <span class="text-blue-400">REFERENCES</span> transaccion (id_transaccion),</p>
-          <p class="ml-4"><span class="text-blue-400">CONSTRAINT</span> ck_transaccion_monto <span class="text-blue-400">CHECK</span> (monto > 0),</p>
-          <p class="ml-4"><span class="text-blue-400">CONSTRAINT</span> ck_origen_destino <span class="text-blue-400">CHECK</span></p>
-          <p class="ml-8">(id_producto_origen <span class="text-blue-400">IS NOT NULL OR</span> id_producto_destino <span class="text-blue-400">IS NOT NULL</span>)</p>
-          <p>);</p>
+        <div class="bg-gray-900 rounded-xl p-5 font-mono text-xs leading-6 overflow-x-auto">
+          <p><span class="text-blue-400">CREATE TABLE</span> <span class="text-green-300">transaccion</span> (</p>
+          <p class="ml-4 text-green-300">id_transaccion          <span class="text-yellow-300">BIGSERIAL PRIMARY KEY</span>,</p>
+          <p class="ml-4 text-green-300">id_transaccion_original <span class="text-yellow-300">BIGINT</span>, <span class="text-gray-500">-- NULL si no es reversa</span></p>
+          <p class="ml-4 text-green-300">es_fallida              <span class="text-yellow-300">BOOLEAN NOT NULL DEFAULT FALSE</span>,</p>
+          <p class="ml-4 text-green-300">monto                   <span class="text-yellow-300">NUMERIC(15,2) NOT NULL</span>,</p>
+          <p class="ml-4"><span class="text-blue-400">CONSTRAINT</span> <span class="text-green-300">fk_transaccion_original</span> <span class="text-blue-400">FOREIGN KEY</span></p>
+          <p class="ml-8 text-green-300">(id_transaccion_original) <span class="text-blue-400">REFERENCES</span> transaccion (id_transaccion),</p>
+          <p class="ml-4"><span class="text-blue-400">CONSTRAINT</span> <span class="text-green-300">ck_transaccion_monto</span> <span class="text-blue-400">CHECK</span> <span class="text-green-300">(monto &gt; 0),</span></p>
+          <p class="ml-4"><span class="text-blue-400">CONSTRAINT</span> <span class="text-green-300">ck_origen_destino</span> <span class="text-blue-400">CHECK</span></p>
+          <p class="ml-8 text-green-300">(id_producto_origen <span class="text-blue-400">IS NOT NULL OR</span> id_producto_destino <span class="text-blue-400">IS NOT NULL</span>)</p>
+          <p class="text-green-300">);</p>
         </div>
       </div>
 
-      <!-- Reset de secuencias -->
       <div>
         <p class="text-sm font-semibold text-gray-700 mb-2">
           PL/pgSQL — Reset automático de secuencias SERIAL
         </p>
-        <div class="bg-gray-900 text-green-300 rounded-xl p-5 font-mono text-xs leading-6 overflow-x-auto">
-          <p><span class="text-blue-400">DO</span> $$ <span class="text-blue-400">DECLARE</span> r <span class="text-yellow-400">RECORD</span>;</p>
+        <div class="bg-gray-900 rounded-xl p-5 font-mono text-xs leading-6 overflow-x-auto">
+          <p><span class="text-blue-400">DO</span> <span class="text-orange-300">$$</span></p>
+          <p><span class="text-blue-400">DECLARE</span> <span class="text-green-300">r RECORD</span>;</p>
           <p><span class="text-blue-400">BEGIN</span></p>
-          <p class="ml-4"><span class="text-blue-400">FOR</span> r <span class="text-blue-400">IN</span> (</p>
-          <p class="ml-8"><span class="text-blue-400">SELECT</span> table_name, column_name, column_default</p>
-          <p class="ml-8"><span class="text-blue-400">FROM</span> information_schema.columns</p>
-          <p class="ml-8"><span class="text-blue-400">WHERE</span> column_default <span class="text-blue-400">LIKE</span> <span class="text-orange-300">'nextval%'</span></p>
-          <p class="ml-8"><span class="text-blue-400">AND</span> table_schema = <span class="text-orange-300">'public'</span>)</p>
+          <p class="ml-4"><span class="text-blue-400">FOR</span> <span class="text-green-300">r</span> <span class="text-blue-400">IN</span> (</p>
+          <p class="ml-8"><span class="text-blue-400">SELECT</span> <span class="text-green-300">table_name, column_name, column_default</span></p>
+          <p class="ml-8"><span class="text-blue-400">FROM</span> <span class="text-green-300">information_schema.columns</span></p>
+          <p class="ml-8"><span class="text-blue-400">WHERE</span> <span class="text-green-300">column_default</span> <span class="text-blue-400">LIKE</span> <span class="text-orange-300">'nextval%'</span></p>
+          <p class="ml-8"><span class="text-blue-400">AND</span> <span class="text-green-300">table_schema = </span><span class="text-orange-300">'public'</span>)</p>
           <p class="ml-4"><span class="text-blue-400">LOOP</span></p>
-          <p class="ml-8"><span class="text-blue-400">EXECUTE</span> <span class="text-orange-300">'SELECT setval(''' </span>|| ... ||<span class="text-orange-300">''',</span></p>
-          <p class="ml-12"><span class="text-orange-300">COALESCE((SELECT MAX(' </span>|| r.column_name || ...<span class="text-orange-300">'), 0) + 1, false)'</span>;</p>
+          <p class="ml-8"><span class="text-blue-400">EXECUTE</span> <span class="text-orange-300">'SELECT setval(..., COALESCE((SELECT MAX('</span></p>
+          <p class="ml-12 text-green-300">|| r.column_name || <span class="text-orange-300">') FROM '</span> || r.table_name || <span class="text-orange-300">'), 0) + 1, false)'</span>;</p>
           <p class="ml-4"><span class="text-blue-400">END LOOP</span>;</p>
-          <p><span class="text-blue-400">END</span> $$;</p>
+          <p><span class="text-blue-400">END</span> <span class="text-orange-300">$$</span>;</p>
         </div>
       </div>
 
     </div>
   </article>
 
-  <!-- Conclusiones / Reflexión -->
+  <!-- Reflexión -->
   <article class="rounded-3xl border border-gray-200 bg-white shadow-sm overflow-hidden">
     <div class="bg-gradient-to-r from-violet-50 to-fuchsia-50 border-b border-gray-200 px-8 py-6">
       <h2 class="text-2xl font-bold">Reflexión — E-R, Normalización y Diseño</h2>
@@ -330,27 +337,28 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <div class="px-8 py-8 grid md:grid-cols-2 gap-8 text-gray-600 text-sm leading-relaxed">
       <div class="space-y-4">
         <p>
-          Un buen diseño E-R es el punto de partida que determina la calidad de toda la base
-          de datos. En SprintDev Bank, modelar <strong>producto_financiero</strong> como entidad
-          padre con herencia lógica permitió que cuenta, tarjeta y crédito compartan número
-          de producto y estado sin duplicar lógica.
+          Un buen diseño E-R es el punto de partida que determina la calidad de toda
+          la base de datos. En SprintDev Bank, modelar <strong>producto_financiero</strong>
+          como entidad padre con herencia lógica permitió que cuenta, tarjeta y crédito
+          compartan número de producto y estado sin duplicar lógica ni atributos.
         </p>
         <p>
           La normalización hasta 3FN eliminó las redundancias: separar
-          <strong>estado_producto</strong>, <strong>canal</strong> y <strong>estado_alerta</strong>
-          en tablas maestras evita anomalías de actualización cuando cambia el nombre de un estado.
+          <strong>estado_producto</strong>, <strong>canal</strong> y
+          <strong>estado_alerta</strong> en tablas maestras evita anomalías de
+          actualización cuando cambia el nombre de un estado.
         </p>
       </div>
       <div class="space-y-4">
         <p>
-          La autorrelación en <strong>transaccion</strong> (id_transaccion_original) es un
-          ejemplo de cómo el modelo E-R guía decisiones que el diseño relacional luego
-          implementa con una FK a la misma tabla.
+          La autorrelación en <strong>transaccion</strong> (id_transaccion_original) es
+          un ejemplo directo de cómo el modelo E-R guía decisiones que el diseño
+          relacional implementa con una FK a la misma tabla.
         </p>
         <p>
           Finalmente, los constraints <code>CHECK</code> y <code>UNIQUE</code> encapsulan
           reglas de negocio directamente en el esquema, garantizando integridad sin
-          depender de la capa de aplicación, lo cual es posible gracias a un diseño
+          depender de la capa de aplicación — algo posible gracias a un diseño
           conceptual sólido desde el inicio.
         </p>
       </div>
@@ -378,7 +386,7 @@ mermaid.initialize({
   },
 });
 
-const { svg } = await mermaid.render('mer-sprintdev-svg', `erDiagram
+const diagram = `erDiagram
   CLIENTE {
     bigint id_cliente PK
     varchar tipo_documento
@@ -438,8 +446,6 @@ const { svg } = await mermaid.render('mer-sprintdev-svg', `erDiagram
   TRANSACCION {
     bigint id_transaccion PK
     bigint id_cliente FK
-    bigint id_producto_origen FK
-    bigint id_producto_destino FK
     smallint id_estado_transaccion FK
     smallint id_canal FK
     bigint id_transaccion_original FK
@@ -498,8 +504,15 @@ const { svg } = await mermaid.render('mer-sprintdev-svg', `erDiagram
   CLIENTE ||--o{ EVENTO_AUDITORIA : "registrar"
   EMPLEADO ||--o{ EVENTO_AUDITORIA : "registrar"
   CANAL ||--o{ EVENTO_AUDITORIA : "registrar"
-`);
-document.getElementById('mer-sprintdev').innerHTML = svg;
+`;
+
+try {
+  const { svg } = await mermaid.render('mer-sprintdev-svg', diagram);
+  document.getElementById('mer-sprintdev').innerHTML = svg;
+} catch (e) {
+  document.getElementById('mer-sprintdev').innerHTML =
+    '<p class="text-gray-400 text-sm">No se pudo renderizar el diagrama.</p>';
+}
 </script>
 
 </BaseLayout>
